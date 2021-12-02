@@ -278,7 +278,7 @@ Emacs Org mode is super Powerful and super customizable. this is small customiza
 #+begin_src emacs-lisp
 (use-package org
   :config
-  (setq org-ellipsis ":"
+  (setq org-ellipsis " ▶"
 	org-hide-emphasis-markers t))
 
 #+end_src
@@ -361,15 +361,6 @@ Emacs Org mode is super Powerful and super customizable. this is small customiza
 This is give way to use language in emacs org mode for execution.
 
  #+begin_src emacs-lisp
-(defun efs/org-babel-tangle-config ()
-  (when (string-equal (buffer-file-name)
-                      (expand-file-name "/home/vijay/dotfiles/emacs.org"))
-    ;; Dynamic scoping to the rescue
-    (let ((org-confirm-babel-evaluate nil))
-      (org-babel-tangle))))
-
-(add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'efs/org-babel-tangle-config)))
-
 
  #+end_src
 
@@ -377,15 +368,31 @@ This is give way to use language in emacs org mode for execution.
 This block help me to tangle automatically everytime i save this file.
 
  #+begin_src emacs-lisp
- 
+(defun efs/org-babel-tangle-config ()
+  (when (string-equal (buffer-file-name)
+                      (expand-file-name "/home/vijay/.myfiles/emacs.org"))
+    ;; Dynamic scoping to the rescue
+    (let ((org-confirm-babel-evaluate nil))
+      (org-babel-tangle))))
 
+(add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'efs/org-babel-tangle-config)))
 
  #+end_src
 
+*** LaTeX Preview inside org
+
+Well, First you need *dvipng*  from package manager and also, *texlive-extra*. This will help to produce Latex png files.
+
+Techniqly, i can use imagemagick and i always have that but i think that's too big for such task.
+
+#+begin_src emacs-lisp
+(setq org-latex-create-formula-image-program 'dvipng)
+(plist-put org-format-latex-options :scale 2)
+#+end_src
 *** Some ideas 
 
 - Check This webiste for imformation about latex and that stuff https://lucidmanager.org/productivity/ricing-org-mode/
-- Also check This bullets 
+- [ ]  Also check This bullets 
      (setq org-bullets-bullet-list '("☯" "○" "✸" "✿" "~"))
 
 
