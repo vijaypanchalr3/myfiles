@@ -1,0 +1,36 @@
+conky.config = {
+    background=false,
+    own_window=true,
+    own_window_type="normal",
+    own_window_class="Conky",
+    own_window_hints="undecorated,below,sticky,skip_taskbar,skip_pager",
+    alignment="top_right",
+    minimum_width=200,
+    gap_x=180,
+    gap_y=90,
+    border_inner_margin=10,
+    border_outer_margin=10,
+    use_xft=true,
+    xftalpha=0.1,
+    update_interval=0.5,
+    uppercase=true,
+    double_buffer=true,
+    own_window_argb_visual=true,
+    own_window_argb_value=0,
+    draw_shades=false,
+    default_color="ffffff",
+    color1="a3be8c",
+    color2="bf616a",
+    color3="d08770",
+    color4="fc997c"
+}
+
+conky.text = [[
+
+    ${color1}${font Caviar Dreams:size=30}${time %b %e %Y}
+    ${offset -10}${color2}${font Caviar Dreams:size=50}${time %H}${offset 10}${color3}${time %M}
+    
+    
+    
+    ${offset 0}${alignc}${color4}${font Caviar Dreams:size=100}${desktop_name}
+]]

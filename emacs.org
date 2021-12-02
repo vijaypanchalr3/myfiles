@@ -13,7 +13,14 @@
 
 
 
-* Index
+* Index 
+
+
+** Encoding system
+
+#+begin_src emacs-lisp
+(modify-coding-system-alist 'file "" 'utf-8-with-signature-unix)
+#+end_src
 
 ** Package system
 
@@ -45,6 +52,9 @@ This is also copied from *emacs from scratch*,
 
 #+end_src
 ** Basic configuration
+
+This is My basic configuration with gruvbox theme and some UI effects of emacs. Not that much but it's  enough.
+
 *** Set variables
 
 #+begin_src emacs-lisp
@@ -178,10 +188,14 @@ This is also copied from *emacs from scratch*,
 
 ** Key-bindings
 *** Basic kbds 
-#+begin_src emacs-lisp
 
+#+begin_src emacs-lisp
+(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 #+end_src
+
 ** Better UX experience
+
+This is makes Some points easy.
 
 *** Ivy
 
@@ -264,7 +278,7 @@ Emacs Org mode is super Powerful and super customizable. this is small customiza
 #+begin_src emacs-lisp
 (use-package org
   :config
-  (setq org-ellipsis " "
+  (setq org-ellipsis ":"
 	org-hide-emphasis-markers t))
 
 #+end_src
@@ -276,10 +290,10 @@ Emacs Org mode is super Powerful and super customizable. this is small customiza
   :after org
   :hook (org-mode . org-bullets-mode)
   :custom
-  (org-bullets-bullet-list '("" "" "" "" "" "" "")))
+  (org-bullets-bullet-list '("●" "●" "●" "●" "●" "●" "●")))
 (font-lock-add-keywords 'org-mode
                           '(("^ *\\([-]\\) "
-                             (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "}"))))))
+                             (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "○"))))))
 
 #+end_src
 
@@ -359,8 +373,6 @@ This is give way to use language in emacs org mode for execution.
 
  #+end_src
 
- 
-
 *** Tangle automation
 This block help me to tangle automatically everytime i save this file.
 
@@ -370,9 +382,7 @@ This block help me to tangle automatically everytime i save this file.
 
  #+end_src
 
-
-
-*** Some ideas...
+*** Some ideas 
 
 - Check This webiste for imformation about latex and that stuff https://lucidmanager.org/productivity/ricing-org-mode/
 - Also check This bullets 
@@ -438,21 +448,21 @@ This is not it. Org mode is much more
 
 ** Structural Templates
 
-This is structural for creatin source blocks in org mode, this list will give idea... 
+This is structural for creating source blocks in org mode, this list will give idea... 
 
-- (py . src python) 
-- (el . src emacs-lisp) 
-- (sh . src shell) 
-- (a . export ascii) 
-- (c . center) 
-- (C . comment) 
-- (e . example) 
-- (E . export) 
-- (h . export html) 
-- (l . export latex) 
-- (q . quote) 
-- (s . src) 
-- (v . verse))
+- py -- src python 
+- el -- src emacs-lisp 
+- sh -- src shell
+- a -- export ascii 
+- c -- center
+- C -- comment) 
+- e -- example 
+- E -- export 
+- h -- export html
+- l -- export latex 
+- q -- quote
+- s -- src
+- v -- verse
 
 
  #+begin_src emacs-lisp
@@ -464,8 +474,6 @@ This is structural for creatin source blocks in org mode, this list will give id
   (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
   (add-to-list 'org-structure-template-alist '("py" . "src python")))
 #+end_src
-
-
 
 
 
