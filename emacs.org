@@ -14,7 +14,7 @@
 
 
 * Index 
-
+This is my whole configuration file.
 
 ** Encoding system
 
