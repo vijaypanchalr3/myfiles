@@ -1,0 +1,475 @@
+﻿#+title New configuration file
+#+PROPERTY: header-args:emacs-lisp :tangle /home/vijay/.emacs
+
+
+*documentation for org babel languages*: [[https://orgmode.org/worg/org-contrib/babel/languages/index.html]]
+
+*Emacs from Scratch link*:
+[[https://github.com/daviwil/emacs-from-scratch]]
+
+*Emacs from Scratch Confguration*:
+[[https://github.com/daviwil/emacs-from-scratch/blob/master/Emacs.org]] 
+
+
+
+
+* Index
+
+** Package system
+
+
+This is code initializing melpa with updated elpa and org mode. which i copied from [[https://melpa.org/#/getting-started][melpa website]] and edited from *emacs from scratch* page.
+
+
+#+begin_src emacs-lisp
+(require 'package)
+
+(setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                         ("org" . "https://orgmode.org/elpa/")
+                         ("elpa" . "https://elpa.gnu.org/packages/")))
+;; Comment/uncomment this line to enable MELPA Stable if desired.  See `package-archive-priorities`
+;; and `package-pinned-packages`. Most users will not need or want to do this.
+;;(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+(package-initialize)
+#+end_src
+
+This is also copied from *emacs from scratch*,
+
+#+begin_src emacs-lisp
+
+(unless package-archive-contents
+  (package-refresh-contents))
+(require 'use-package)
+(setq use-package-always-ensure t)
+(setq inhibit-startup-message t)
+
+#+end_src
+** Basic configuration
+*** Set variables
+
+#+begin_src emacs-lisp
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(column-number-mode t)
+ '(custom-enabled-themes '(doom-gruvbox))
+ '(custom-safe-themes
+   '("5784d048e5a985627520beb8a101561b502a191b52fa401139f4dd20acb07607" "1704976a1797342a1b4ea7a75bdbb3be1569f4619134341bd5a4c1cfb16abad4" "b0e446b48d03c5053af28908168262c3e5335dcad3317215d9fdeb8bac5bacf9" "e8df30cd7fb42e56a4efc585540a2e63b0c6eeb9f4dc053373e05d774332fc13" "23c806e34594a583ea5bbf5adf9a964afe4f28b4467d28777bcba0d35aa0872e" "a9a67b318b7417adbedaab02f05fa679973e9718d9d26075c6235b1f0db703c8" "1d5e33500bc9548f800f9e248b57d1b2a9ecde79cb40c0b1398dec51ee820daf" "7a7b1d475b42c1a0b61f3b1d1225dd249ffa1abb1b7f726aec59ac7ca3bf4dae" "7eea50883f10e5c6ad6f81e153c640b3a288cd8dc1d26e4696f7d40f754cc703" "f91395598d4cb3e2ae6a2db8527ceb83fed79dbaf007f435de3e91e5bda485fb" "234dbb732ef054b109a9e5ee5b499632c63cc24f7c2383a849815dacc1727cb6" default))
+ '(display-time-mode t)
+ '(doom-modeline-mode nil)
+ '(electric-pair-mode t)
+ '(font-use-system-font nil)
+ '(global-display-line-numbers-mode t)
+ '(hl-todo-keyword-faces
+   '(("TODO" . "#dc752f")
+     ("NEXT" . "#dc752f")
+     ("THEM" . "#2d9574")
+     ("PROG" . "#3a81c3")
+     ("OKAY" . "#3a81c3")
+     ("DONT" . "#f2241f")
+     ("FAIL" . "#f2241f")
+     ("DONE" . "#42ae2c")
+     ("NOTE" . "#b1951d")
+     ("KLUDGE" . "#b1951d")
+     ("HACK" . "#b1951d")
+     ("TEMP" . "#b1951d")
+     ("FIXME" . "#dc752f")
+     ("XXX+" . "#dc752f")
+     ("\\?\\?\\?+" . "#dc752f")))
+ '(menu-bar-mode nil)
+ '(org-fontify-done-headline nil)
+ '(org-fontify-todo-headline nil)
+ '(package-selected-packages
+   '(evil mood-line mixed-pitch spacemacs-theme writeroom-mode dired-single-buffer dired-single company-box html-mode lsp-mode visual-fill-column org-bullets helpful doom-modeline doom-themes magit))
+ '(scroll-bar-mode nil)
+ '(show-paren-mode t)
+ '(size-indication-mode t)
+ '(tool-bar-mode nil))
+#+end_src
+*** Custom dolists
+
+#+begin_src emacs-lisp
+
+(dolist (mode '(org-mode-hook
+		 term-mode-hook
+		 eshell-mode-hook
+		 helpful-mode-hook
+		 Custom-mode-hook))
+  (add-hook mode(lambda () (display-line-numbers-mode 0))))
+
+
+
+
+
+
+;; -------------------------( org - mode )------------------------------------------------------
+;;(dolist (mode '(org-mode-hook))
+;;  (add-hook mode(lambda () (visual-line-mode 1))))
+
+;;  (set-face-attribute 'variable-pitch :height 160)
+;;---------------------------------------------------------------------------------------
+;;lsp mode starts--------------
+;;code start
+(use-package dired
+  :ensure nil
+  :bind (("C-x C-j" . dired-jump))
+  :custom ((dired-listing-switches "-agho --group-directories-first")))
+(use-package dired-single
+  :commands (dired dired-jump))
+;;  :bind (("<right>" . dired-single-buffer)
+;;	 ("<left>" . dired-single-up-directory)))
+
+(use-package all-the-icons-dired
+  :hook (dired-mode . all-the-icons-dired-mode))
+
+#+end_src
+
+*** Icons
+#+begin_src emacs-lisp
+(use-package all-the-icons)
+#+end_src
+
+*** Modeline
+
+#+begin_src emacs-lisp
+(use-package doom-modeline
+  :init (doom-modeline-mode 1)
+  :config
+  (setq doom-modeline-height 25)
+  (setq doom-modeline-modal-icon 'evil)
+  (setq doom-modeline-buffer-modification-icon t)
+;;  (setq doom-modeline-bar-width 4)
+;;  (defcustom doom-modeline-hud nil)
+  (setq doom-modeline-window-width-limit fill-column)
+;;  (setq doom-modeline-icon (display-graphic-p)
+;;  (setq doom-modeline-major-mode-icon t)
+;;  (setq doom-modeline-major-mode-color-icon t)
+;;  (setq doom-modeline-buffer-state-icon t)
+  (setq doom-modeline-buffer-file-name-style 'truncate-upto-project)
+;;  (setq doom-modeline-modal-icon t)
+  (setq doom-modeline-buffer-modification-icon nil)
+;;  (setq doom-modeline-unicode-fallback t)
+  (setq doom-modeline-continuous-word-count-modes '(markdown-mode gfm-mode org-mode)))
+
+;;  (set-face-attribute 'mode-line nil :family "Noto Sans" :height 110)
+;;  (set-face-attribute 'mode-line-inactive nil :family "Noto Sans" :height 110))
+  
+  ;; Define your custom doom-modeline
+;;(doom-modeline-def-modeline 'my-simple-line
+;;  '(bar matches buffer-info remote-host buffer-position parrot selection-info)
+;;  '(misc-info minor-modes input-method buffer-encoding major-mode process vcs checker))
+
+;; Add to `doom-modeline-mode-hook` or other hooks
+;;(defun setup-custom-doom-modeline ()
+;;   (doom-modeline-set-modeline 'my-simple-line 'default))
+;;(add-hook 'doom-modeline-mode-hook 'setup-custom-doom-modeline)
+
+#+end_src
+
+*** Rainbox indentation
+
+#+begin_src emacs-lisp
+(require 'rainbow-delimiters)
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
+#+end_src
+
+** Key-bindings
+*** Basic kbds 
+#+begin_src emacs-lisp
+
+#+end_src
+** Better UX experience
+
+*** Ivy
+
+#+begin_src emacs-lisp
+(use-package ivy
+  :diminish
+  :bind (:map ivy-minibuffer-map
+         ("C-l" . ivy-alt-done)
+         ("C-j" . ivy-next-line)
+         ("C-k" . ivy-previous-line)
+         :map ivy-switch-buffer-map
+         ("C-k" . ivy-previous-line)
+         ("C-l" . ivy-done)
+         ("C-d" . ivy-switch-buffer-kill)
+         :map ivy-reverse-i-search-map
+         ("C-k" . ivy-previous-line)
+         ("C-d" . ivy-reverse-i-search-kill))
+  :config
+  (ivy-mode 1))
+
+#+end_src
+
+*** Which-key
+
+#+begin_src emacs-lisp
+(use-package which-key
+  :defer 0
+  :diminish which-key-mode
+  :config
+  (which-key-mode)
+  (setq which-key-idle-delay 1))
+#+end_src
+
+*** Counsel
+
+#+begin_src emacs-lisp
+(use-package counsel
+  :bind (("C-M-j" . 'counsel-switch-buffer)
+         :map minibuffer-local-map
+         ("C-r" . 'counsel-minibuffer-history))
+;;  :custom
+;;  (counsel-linux-app-format-function #'counsel-linux-app-format-function-name-only)
+  :config
+  (counsel-mode 1))
+#+end_src
+
+*** Ivy-rich
+
+#+begin_src emacs-lisp
+(use-package ivy-rich
+  :init
+  (ivy-rich-mode 1))
+
+#+end_src
+
+*** Helpful
+
+#+begin_src emacs-lisp
+(use-package helpful
+  :commands (helpful-callable helpful-variable helpful-command helpful-key)
+  :custom
+  (counsel-describe-function-function #'helpful-callable)
+  (counsel-describe-variable-function #'helpful-variable)
+  :bind
+  ([remap describe-function] . counsel-describe-function)
+  ([remap describe-command] . helpful-command)
+  ([remap describe-variable] . counsel-describe-variable)
+  ([remap describe-key] . helpful-key))
+
+#+end_src
+
+** Org-mode
+
+Emacs Org mode is super Powerful and super customizable. this is small customization of emacs org mode.
+
+*Org Mode Links* : [[https://orgmode.org/][Homepage]], [[https://orgmode.org/manual/][Manual]] 
+
+*** Basic customization for Org mode
+
+#+begin_src emacs-lisp
+(use-package org
+  :config
+  (setq org-ellipsis " "
+	org-hide-emphasis-markers t))
+
+#+end_src
+
+*Org bullet lists for configure different level of headings. Also, i set list icon to dot in second block*
+
+#+begin_src emacs-lisp
+(use-package org-bullets
+  :after org
+  :hook (org-mode . org-bullets-mode)
+  :custom
+  (org-bullets-bullet-list '("" "" "" "" "" "" "")))
+(font-lock-add-keywords 'org-mode
+                          '(("^ *\\([-]\\) "
+                             (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "}"))))))
+
+#+end_src
+
+*** Heading sizes
+
+#+begin_src emacs-lisp
+(dolist (face '((org-level-1 . 1.2)
+                (org-level-2 . 1.1)
+                (org-level-3 . 1.1)
+                (org-level-4 . 1.1)
+                (org-level-5 . 1.1)
+                (org-level-6 . 1.0)
+                (org-level-7 . 1.0)
+                (org-level-8 . 1.0)))
+  (set-face-attribute (car face) nil :font "Merriweather" :weight 'regular :height (cdr face)))
+
+
+#+end_src
+*** Margin setting for Org mode
+
+
+#+begin_src emacs-lisp
+(defun efs/org-mode-visual-fill ()
+  (setq visual-fill-column-width 100
+        visual-fill-column-center-text t)
+  (visual-fill-column-mode 1)
+  (visual-line-mode 1)
+  (variable-pitch-mode 1)
+  (org-indent-mode 1)
+  (writeroom-mode 1)
+  (electric-pair-mode 0))
+;;(dolist (mode (org-mode-hook))
+;;  (add-hook-mode'((lambda () (org-indent-mode 1))
+;;                  (lambda () (visual-line-mode 1)))))
+(use-package visual-fill-column
+  :hook '((org-mode . efs/org-mode-visual-fill)))
+(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+;;==============
+;;(defun efs/org-mode-setup ()
+;;  (org-indent-mode 1)
+;;  (visual-line-mode 1)
+;;  (variable-pitch-mode 1)
+;;  (writeroom-mode 1)
+;;  (setq header-line-format " "
+;;	line-spacing 0.1))
+
+#+end_src
+
+*** Font setting for Org mode
+
+#+begin_src emacs-lisp
+(use-package mixed-pitch
+  :hook
+  ;; If you want it in all text modes:
+  (text-mode . mixed-pitch-mode)
+  :config
+  (set-face-attribute 'default nil :font "JetBrainsMono NF" :height 110)
+  (set-face-attribute 'fixed-pitch nil :font "JetBrainsMono NF")
+  (set-face-attribute 'variable-pitch nil :font "Merriweather" :height 120))
+
+#+end_src
+
+*** Emacs-Org-Babel language support
+
+This is give way to use language in emacs org mode for execution.
+
+ #+begin_src emacs-lisp
+(defun efs/org-babel-tangle-config ()
+  (when (string-equal (buffer-file-name)
+                      (expand-file-name "/home/vijay/dotfiles/emacs.org"))
+    ;; Dynamic scoping to the rescue
+    (let ((org-confirm-babel-evaluate nil))
+      (org-babel-tangle))))
+
+(add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'efs/org-babel-tangle-config)))
+
+
+ #+end_src
+
+ 
+
+*** Tangle automation
+This block help me to tangle automatically everytime i save this file.
+
+ #+begin_src emacs-lisp
+ 
+
+
+ #+end_src
+
+
+
+*** Some ideas...
+
+- Check This webiste for imformation about latex and that stuff https://lucidmanager.org/productivity/ricing-org-mode/
+- Also check This bullets 
+     (setq org-bullets-bullet-list '("☯" "○" "✸" "✿" "~"))
+
+
+
+This is not it. Org mode is much more
+
+** LSP
+
+*** LSP- configuration
+#+begin_src emacs-lisp
+(use-package lsp-mode
+  :commands (lsp lsp-deferred)
+  :init
+  (setq lsp-keymap-prefix "C-c l")  ;; Or 'C-l', 's-l'
+  :config
+  (lsp-enable-which-key-integration t))
+#+end_src
+
+*** Language configuration
+
+***** CSS
+
+#+begin_src emacs-lisp
+(use-package css-mode
+  :mode "\\.css\\'"
+  :hook (css-mode . lsp-deferred)
+  :config
+  (setq css-indent-level 4))
+
+#+end_src
+
+***** Python
+
+#+begin_src emacs-lisp
+(use-package python-mode
+  :ensure nil
+  :hook (python-mode . lsp-deferred))
+
+#+end_src
+
+*** Company
+
+#+begin_src emacs-lisp
+(use-package company
+  :after lsp-mode
+  :hook '((lsp-mode . company-mode)
+	  (prog-mode . company-mode))
+  :bind (:map company-active-map
+         ("<tab>" . company-complete-selection))
+        (:map lsp-mode-map
+         ("<tab>" . company-indent-or-complete-common))
+  :custom
+  (company-minimum-prefix-length 1)
+  (company-idle-delay 0.0))
+(use-package company-box
+  :hook (company-mode . company-box-mode))
+
+
+#+end_src
+
+** Structural Templates
+
+This is structural for creatin source blocks in org mode, this list will give idea... 
+
+- (py . src python) 
+- (el . src emacs-lisp) 
+- (sh . src shell) 
+- (a . export ascii) 
+- (c . center) 
+- (C . comment) 
+- (e . example) 
+- (E . export) 
+- (h . export html) 
+- (l . export latex) 
+- (q . quote) 
+- (s . src) 
+- (v . verse))
+
+
+ #+begin_src emacs-lisp
+(with-eval-after-load 'org
+  ;; This is needed as of Org 9.2
+  (require 'org-tempo)
+
+  (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
+  (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+  (add-to-list 'org-structure-template-alist '("py" . "src python")))
+#+end_src
+
+
+
+
+
+
+
+* Other 
+ff
