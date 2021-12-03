@@ -103,33 +103,18 @@ This is My basic configuration with gruvbox theme and some UI effects of emacs. 
 #+begin_src emacs-lisp
 
 (dolist (mode '(org-mode-hook
-		 term-mode-hook
+		 vterm-mode-hook
 		 eshell-mode-hook
 		 helpful-mode-hook
 		 Custom-mode-hook))
   (add-hook mode(lambda () (display-line-numbers-mode 0))))
 
-
-
-
-
-
-;; -------------------------( org - mode )------------------------------------------------------
-;;(dolist (mode '(org-mode-hook))
-;;  (add-hook mode(lambda () (visual-line-mode 1))))
-
-;;  (set-face-attribute 'variable-pitch :height 160)
-;;---------------------------------------------------------------------------------------
-;;lsp mode starts--------------
-;;code start
 (use-package dired
   :ensure nil
   :bind (("C-x C-j" . dired-jump))
   :custom ((dired-listing-switches "-agho --group-directories-first")))
 (use-package dired-single
   :commands (dired dired-jump))
-;;  :bind (("<right>" . dired-single-buffer)
-;;	 ("<left>" . dired-single-up-directory)))
 
 (use-package all-the-icons-dired
   :hook (dired-mode . all-the-icons-dired-mode))
@@ -150,31 +135,11 @@ This is My basic configuration with gruvbox theme and some UI effects of emacs. 
   (setq doom-modeline-height 25)
   (setq doom-modeline-modal-icon 'evil)
   (setq doom-modeline-buffer-modification-icon t)
-;;  (setq doom-modeline-bar-width 4)
-;;  (defcustom doom-modeline-hud nil)
   (setq doom-modeline-window-width-limit fill-column)
-;;  (setq doom-modeline-icon (display-graphic-p)
-;;  (setq doom-modeline-major-mode-icon t)
-;;  (setq doom-modeline-major-mode-color-icon t)
-;;  (setq doom-modeline-buffer-state-icon t)
   (setq doom-modeline-buffer-file-name-style 'truncate-upto-project)
-;;  (setq doom-modeline-modal-icon t)
   (setq doom-modeline-buffer-modification-icon nil)
-;;  (setq doom-modeline-unicode-fallback t)
   (setq doom-modeline-continuous-word-count-modes '(markdown-mode gfm-mode org-mode)))
 
-;;  (set-face-attribute 'mode-line nil :family "Noto Sans" :height 110)
-;;  (set-face-attribute 'mode-line-inactive nil :family "Noto Sans" :height 110))
-  
-  ;; Define your custom doom-modeline
-;;(doom-modeline-def-modeline 'my-simple-line
-;;  '(bar matches buffer-info remote-host buffer-position parrot selection-info)
-;;  '(misc-info minor-modes input-method buffer-encoding major-mode process vcs checker))
-
-;; Add to `doom-modeline-mode-hook` or other hooks
-;;(defun setup-custom-doom-modeline ()
-;;   (doom-modeline-set-modeline 'my-simple-line 'default))
-;;(add-hook 'doom-modeline-mode-hook 'setup-custom-doom-modeline)
 
 #+end_src
 
@@ -236,8 +201,6 @@ This is makes Some points easy.
   :bind (("C-M-j" . 'counsel-switch-buffer)
          :map minibuffer-local-map
          ("C-r" . 'counsel-minibuffer-history))
-;;  :custom
-;;  (counsel-linux-app-format-function #'counsel-linux-app-format-function-name-only)
   :config
   (counsel-mode 1))
 #+end_src
@@ -325,20 +288,10 @@ Emacs Org mode is super Powerful and super customizable. this is small customiza
   (org-indent-mode 1)
   (writeroom-mode 1)
   (electric-pair-mode 0))
-;;(dolist (mode (org-mode-hook))
-;;  (add-hook-mode'((lambda () (org-indent-mode 1))
-;;                  (lambda () (visual-line-mode 1)))))
+
 (use-package visual-fill-column
   :hook '((org-mode . efs/org-mode-visual-fill)))
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-;;==============
-;;(defun efs/org-mode-setup ()
-;;  (org-indent-mode 1)
-;;  (visual-line-mode 1)
-;;  (variable-pitch-mode 1)
-;;  (writeroom-mode 1)
-;;  (setq header-line-format " "
-;;	line-spacing 0.1))
 
 #+end_src
 
@@ -392,13 +345,12 @@ Techniqly, i can use imagemagick and i always have that but i think that's too b
 *** Some ideas 
 
 - Check This webiste for imformation about latex and that stuff https://lucidmanager.org/productivity/ricing-org-mode/
-- [ ]  Also check This bullets 
+- [X]  Also check This bullets 
      (setq org-bullets-bullet-list '("☯" "○" "✸" "✿" "~"))
 
 
 
 This is not it. Org mode is much more
-
 ** LSP
 
 *** LSP- configuration
@@ -483,8 +435,23 @@ This is structural for creating source blocks in org mode, this list will give i
 #+end_src
 
 
+** Other Modes settings
+
+*** Markdown setting
+
+#+begin_src emacs-lisp
+;;here setting of markdown
 
 
+#+end_src
+
+
+** Terminal
+
+*** Term-mode
+#+begin_src emacs-lisp
+
+#+end_src
 
 * Other 
 ff
