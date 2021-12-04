@@ -51,6 +51,21 @@ This is also copied from *emacs from scratch*,
 (setq inhibit-startup-message t)
 
 #+end_src
+
+** Packages
+
+#+begin_src emacs-lisp
+(require 'mixed-pitch)
+(require 'writeroom-mode)
+(require 'company-box)
+(require 'lsp-mode)
+(require 'visual-fill-column)
+(require 'org-bullets)
+(require 'helpful)
+(require 'doom-modeline)
+(require 'doom-themes)
+(require 'magit)
+#+end_src
 ** Basic configuration
 
 This is My basic configuration with gruvbox theme and some UI effects of emacs. Not that much but it's  enough.
@@ -59,40 +74,17 @@ This is My basic configuration with gruvbox theme and some UI effects of emacs. 
 
 #+begin_src emacs-lisp
 (custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
  '(column-number-mode t)
- '(custom-enabled-themes '(doom-gruvbox))
- '(custom-safe-themes
-   '("5784d048e5a985627520beb8a101561b502a191b52fa401139f4dd20acb07607" "1704976a1797342a1b4ea7a75bdbb3be1569f4619134341bd5a4c1cfb16abad4" "b0e446b48d03c5053af28908168262c3e5335dcad3317215d9fdeb8bac5bacf9" "e8df30cd7fb42e56a4efc585540a2e63b0c6eeb9f4dc053373e05d774332fc13" "23c806e34594a583ea5bbf5adf9a964afe4f28b4467d28777bcba0d35aa0872e" "a9a67b318b7417adbedaab02f05fa679973e9718d9d26075c6235b1f0db703c8" "1d5e33500bc9548f800f9e248b57d1b2a9ecde79cb40c0b1398dec51ee820daf" "7a7b1d475b42c1a0b61f3b1d1225dd249ffa1abb1b7f726aec59ac7ca3bf4dae" "7eea50883f10e5c6ad6f81e153c640b3a288cd8dc1d26e4696f7d40f754cc703" "f91395598d4cb3e2ae6a2db8527ceb83fed79dbaf007f435de3e91e5bda485fb" "234dbb732ef054b109a9e5ee5b499632c63cc24f7c2383a849815dacc1727cb6" default))
+ '(custom-enabled-themes '(doom-gruvbox) t)
  '(display-time-mode t)
- '(doom-modeline-mode nil)
  '(electric-pair-mode t)
  '(font-use-system-font nil)
  '(global-display-line-numbers-mode t)
- '(hl-todo-keyword-faces
-   '(("TODO" . "#dc752f")
-     ("NEXT" . "#dc752f")
-     ("THEM" . "#2d9574")
-     ("PROG" . "#3a81c3")
-     ("OKAY" . "#3a81c3")
-     ("DONT" . "#f2241f")
-     ("FAIL" . "#f2241f")
-     ("DONE" . "#42ae2c")
-     ("NOTE" . "#b1951d")
-     ("KLUDGE" . "#b1951d")
-     ("HACK" . "#b1951d")
-     ("TEMP" . "#b1951d")
-     ("FIXME" . "#dc752f")
-     ("XXX+" . "#dc752f")
-     ("\\?\\?\\?+" . "#dc752f")))
  '(menu-bar-mode nil)
  '(org-fontify-done-headline nil)
  '(org-fontify-todo-headline nil)
  '(package-selected-packages
-   '(evil mood-line mixed-pitch spacemacs-theme writeroom-mode dired-single-buffer dired-single company-box html-mode lsp-mode visual-fill-column org-bullets helpful doom-modeline doom-themes magit))
+   '(mixed-pitch writeroom-mode company-box lsp-mode visual-fill-column org-bullets helpful doom-modeline doom-themes magit))
  '(scroll-bar-mode nil)
  '(show-paren-mode t)
  '(size-indication-mode t)
@@ -101,7 +93,6 @@ This is My basic configuration with gruvbox theme and some UI effects of emacs. 
 *** Custom dolists
 
 #+begin_src emacs-lisp
-
 (dolist (mode '(org-mode-hook
 		 vterm-mode-hook
 		 eshell-mode-hook
@@ -161,24 +152,16 @@ This is My basic configuration with gruvbox theme and some UI effects of emacs. 
 #+begin_src emacs-lisp
 ;;vterm keybinds
 
-(global-set-key [f2] 'vterm-toggle)
-(global-set-key [C-f2] 'vterm-toggle-cd)
+;;(global-set-key [f2] 'vterm-toggle)
+;;(global-set-key [C-f2] 'vterm-toggle-cd)
 
 #+end_src
 
 
 This is for my motion
 
-#+begin_src emacs-lisp
 
-;;(global-set-key (kbd "<C-l>") 'right-char)
-;;(global-set-key (kbd "<C-h>") 'left-char)
-;;(global-set-key [C-k] 'previous-line)
-;;(global-set-key [C-j] 'next-line)
-;;(global-set-key [C-n] 'electric-newline-and-maybe-indent)
-;;kill-(kill-visual-line &optional ARG)
-;;C-l--(recenter-top-bottom &optional ARG)
-#+end_src
+
 ** Better UX experience
 
 This is makes Some points easy.
@@ -384,13 +367,9 @@ This is not it. Org mode is much more
   (lsp-enable-which-key-integration t))
 #+end_src
 
-#+begin_src emacs-lisp
-;;(use-package elpy
-;;  :ensure t
-;;  :defer t
-;;  :init
-;;  (advice-add 'python-mode :before 'elpy-enable))
-#+end_src
+
+
+
 *** Language configuration
 
 ***** CSS
@@ -427,12 +406,12 @@ This is not it. Org mode is much more
   ;;python-shell-interpreter' and ;;python-shell-interpreter-args'
   ;; variables.  This example enables IPython globally:
   (setq python-shell-interpreter "python3.9")
-  ;;       python-shell-interpreter-args "-i")
+  (setq python-shell-interpreter-args "-i")
 
 
-  (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
+  ;;(add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
 
-  (setq py-autopep8-options '("--max-line-length=100"))
+  ;;(setq py-autopep8-options '("--max-line-length=100"))
 
 #+end_src
 
