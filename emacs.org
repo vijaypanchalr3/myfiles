@@ -12,8 +12,8 @@
 
 
 
-
 * Index 
+
 This is my whole configuration file.
 
 ** Encoding system
@@ -158,6 +158,27 @@ This is My basic configuration with gruvbox theme and some UI effects of emacs. 
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 #+end_src
 
+#+begin_src emacs-lisp
+;;vterm keybinds
+
+(global-set-key [f2] 'vterm-toggle)
+(global-set-key [C-f2] 'vterm-toggle-cd)
+
+#+end_src
+
+
+This is for my motion
+
+#+begin_src emacs-lisp
+
+;;(global-set-key (kbd "<C-l>") 'right-char)
+;;(global-set-key (kbd "<C-h>") 'left-char)
+;;(global-set-key [C-k] 'previous-line)
+;;(global-set-key [C-j] 'next-line)
+;;(global-set-key [C-n] 'electric-newline-and-maybe-indent)
+;;kill-(kill-visual-line &optional ARG)
+;;C-l--(recenter-top-bottom &optional ARG)
+#+end_src
 ** Better UX experience
 
 This is makes Some points easy.
@@ -363,6 +384,13 @@ This is not it. Org mode is much more
   (lsp-enable-which-key-integration t))
 #+end_src
 
+#+begin_src emacs-lisp
+;;(use-package elpy
+;;  :ensure t
+;;  :defer t
+;;  :init
+;;  (advice-add 'python-mode :before 'elpy-enable))
+#+end_src
 *** Language configuration
 
 ***** CSS
@@ -376,12 +404,35 @@ This is not it. Org mode is much more
 
 #+end_src
 
+***** HTML
+
+#+begin_src emacs-lisp
+;;(use-package html-mode
+;;  :hook (html-mode . lsp-deferred))
+#+end_src
 ***** Python
 
 #+begin_src emacs-lisp
-(use-package python-mode
-  :ensure nil
-  :hook (python-mode . lsp-deferred))
+  (use-package python-mode
+    :ensure nil
+    :hook (python-mode . lsp-deferred))
+
+  ;;(setq python-shell-interpreter "jupyter"
+  ;;      python-shell-interpreter-args "console --simple-prompt"
+  ;;      python-shell-prompt-detect-failure-warning nil)
+  ;(add-to-list 'python-shell-completion-native-disabled-interpreters
+  ;             "jupyter")
+  ;; … .  You can change
+  ;; your default interpreter and commandline arguments by setting the
+  ;;python-shell-interpreter' and ;;python-shell-interpreter-args'
+  ;; variables.  This example enables IPython globally:
+  (setq python-shell-interpreter "python3.9")
+  ;;       python-shell-interpreter-args "-i")
+
+
+  (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
+
+  (setq py-autopep8-options '("--max-line-length=100"))
 
 #+end_src
 
@@ -449,9 +500,39 @@ This is structural for creating source blocks in org mode, this list will give i
 ** Terminal
 
 *** Term-mode
+
+*vterm github page*:
+[[https://github.com/akermu/emacs-libvterm]]
+
+*Eshell Official page*:
+[[https://www.gnu.org/software/emacs/manual/html_mono/eshell.html]]
+
+I'm using vterm but i just congiguring Eshell
+
 #+begin_src emacs-lisp
+(defun efs/configure-eshell ()
+  ;; Save command history when commands are entered
+  (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
 
+  ;; Truncate buffer for performance
+  (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer)
+  (setq eshell-history-size         10000
+        eshell-buffer-maximum-lines 10000
+        eshell-hist-ignoredups t
+        eshell-scroll-to-bottom-on-input t))
+
+(use-package eshell-git-prompt
+  :after eshell)
+
+(use-package eshell
+  :hook (eshell-first-time-mode . efs/configure-eshell)
+  :config
+
+  (with-eval-after-load 'esh-opt
+    (setq eshell-destroy-buffer-when-process-dies t)
+    (setq eshell-visual-commands '("htop" "zsh" "vim")))
+
+  (eshell-git-prompt-use-theme 'robbyrussell))
 #+end_src
-
 * Other 
 ff
