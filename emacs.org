@@ -167,7 +167,7 @@ This is My basic configuration with gruvbox theme and some UI effects of emacs. 
       (kill-buffer "*scratch*")))
 (add-hook 'after-change-major-mode-hook 'remove-scratch-buffer)
 ;;(setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
-(setq dashboard-banner-logo-title "Welcome to Emacs Dashboard")
+(setq dashboard-banner-logo-title nil)
 ;; Set the banner
 (setq dashboard-startup-banner "~/.emacs.d/drawing.png")
 ;; Value can be
