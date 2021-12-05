@@ -1,5 +1,5 @@
 ﻿#+title New configuration file
-#+PROPERTY: header-args:emacs-lisp :tangle /home/vijay/.emacs
+#+PROPERTY: header-args:emacs-lisp :tangle /home/vijay/.emacs :mkdirp yes
 
 
 *documentation for org babel languages*: [[https://orgmode.org/worg/org-contrib/babel/languages/index.html]]
@@ -55,16 +55,16 @@ This is also copied from *emacs from scratch*,
 ** Packages
 
 #+begin_src emacs-lisp
-(require 'mixed-pitch)
-(require 'writeroom-mode)
-(require 'company-box)
-(require 'lsp-mode)
-(require 'visual-fill-column)
-(require 'org-bullets)
-(require 'helpful)
-(require 'doom-modeline)
-(require 'doom-themes)
-(require 'magit)
+;;(require 'mixed-pitch)
+;;(require 'writeroom-mode)
+;;(require 'company-box)
+;;(require 'lsp-mode)
+;;(require 'visual-fill-column)
+;;(require 'org-bullets)
+;;(require 'helpful)
+;;(require 'doom-modeline)
+;;(require 'doom-themes)
+;;(require 'magit)
 #+end_src
 ** Basic configuration
 
@@ -75,7 +75,9 @@ This is My basic configuration with gruvbox theme and some UI effects of emacs. 
 #+begin_src emacs-lisp
 (custom-set-variables
  '(column-number-mode t)
- '(custom-enabled-themes '(doom-gruvbox) t)
+ '(custom-enabled-themes '(doom-gruvbox))
+ '(custom-safe-themes
+    '("7eea50883f10e5c6ad6f81e153c640b3a288cd8dc1d26e4696f7d40f754cc703" default))
  '(display-time-mode t)
  '(electric-pair-mode t)
  '(font-use-system-font nil)
@@ -142,8 +144,55 @@ This is My basic configuration with gruvbox theme and some UI effects of emacs. 
   :hook (prog-mode . rainbow-delimiters-mode))
 #+end_src
 
-** Key-bindings
-*** Basic kbds 
+*** splash screen
+#+begin_src emacs-lisp
+(require 'dashboard)
+(dashboard-setup-startup-hook)
+;; Or if you use use-package
+(use-package dashboard
+  :ensure t
+  :config
+  (dashboard-setup-startup-hook))
+
+#+end_src
+
+#+begin_src emacs-lisp
+;; Set the title
+;; Makes *scratch* empty.
+(setq initial-scratch-message "")
+
+;; Removes *scratch* from buffer after the mode has been set.
+(defun remove-scratch-buffer ()
+  (if (get-buffer "*scratch*")
+      (kill-buffer "*scratch*")))
+(add-hook 'after-change-major-mode-hook 'remove-scratch-buffer)
+;;(setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+(setq dashboard-banner-logo-title "Welcome to Emacs Dashboard")
+;; Set the banner
+(setq dashboard-startup-banner "~/.emacs.d/drawing.png")
+;; Value can be
+;; 'official which displays the official emacs logo
+;; 'logo which displays an alternative emacs logo
+;; 1, 2 or 3 which displays one of the text banners
+;; "path/to/your/image.gif", "path/to/your/image.png" or "path/to/your/text.txt" which displays whatever gif/image/text you would prefer
+
+;; Content is not centered by default. To center, set
+(setq dashboard-center-content t)
+
+;; To disable shortcut "jump" indicators for each section, set
+(setq dashboard-show-shortcuts t)
+(setq dashboard-items '((recents  . 10)
+                        (bookmarks . 10)))
+(setq dashboard-set-heading-icons t)
+(setq dashboard-set-file-icons t)
+;;(dashboard-modify-heading-icons '((recents . "file-text")
+;;                                  (bookmarks . "book")))
+(setq dashboard-set-navigator t)
+(setq dashboard-set-footer nil)
+
+#+end_src
+** Key-bindings 
+*** Basic kbds
 
 #+begin_src emacs-lisp
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
@@ -152,15 +201,13 @@ This is My basic configuration with gruvbox theme and some UI effects of emacs. 
 #+begin_src emacs-lisp
 ;;vterm keybinds
 
-;;(global-set-key [f2] 'vterm-toggle)
-;;(global-set-key [C-f2] 'vterm-toggle-cd)
+(global-set-key [f2] 'vterm-toggle)
+(global-set-key [C-f2] 'vterm-toggle-cd)
 
 #+end_src
 
 
 This is for my motion
-
-
 
 ** Better UX experience
 
@@ -307,8 +354,8 @@ Emacs Org mode is super Powerful and super customizable. this is small customiza
   ;; If you want it in all text modes:
   (text-mode . mixed-pitch-mode)
   :config
-  (set-face-attribute 'default nil :font "JetBrainsMono NF" :height 110)
-  (set-face-attribute 'fixed-pitch nil :font "JetBrainsMono NF")
+  (set-face-attribute 'default nil :font "JetBrains Mono NL" :height 110)
+  (set-face-attribute 'fixed-pitch nil :font "JetBrains Mono NL")
   (set-face-attribute 'variable-pitch nil :font "Merriweather" :height 120))
 
 #+end_src
@@ -327,7 +374,7 @@ This block help me to tangle automatically everytime i save this file.
  #+begin_src emacs-lisp
 (defun efs/org-babel-tangle-config ()
   (when (string-equal (buffer-file-name)
-                      (expand-file-name "/home/vijay/.myfiles/emacs.org"))
+                      (expand-file-name "/home/vijay/myfiles/emacs.org"))
     ;; Dynamic scoping to the rescue
     (let ((org-confirm-babel-evaluate nil))
       (org-babel-tangle))))
@@ -336,6 +383,7 @@ This block help me to tangle automatically everytime i save this file.
 
  #+end_src
 
+ 
 *** LaTeX Preview inside org
 
 Well, First you need *dvipng*  from package manager and also, *texlive-extra*. This will help to produce Latex png files.
@@ -367,9 +415,6 @@ This is not it. Org mode is much more
   (lsp-enable-which-key-integration t))
 #+end_src
 
-
-
-
 *** Language configuration
 
 ***** CSS
@@ -383,6 +428,27 @@ This is not it. Org mode is much more
 
 #+end_src
 
+***** LaTeX
+#+begin_src emacs-lisp
+;;(add-to-list 'load-path "/path/to/lsp-latex")
+(require 'lsp-latex)
+;; "texlab" must be located at a directory contained in`exec-path'.
+;; If you want to put "texlab" somewhere else,
+;; you can specify the path to "texlab" as follows:
+;; (setq lsp-latex-texlab-executable "/path/to/texlab")
+
+(with-eval-after-load "tex-mode"
+ (add-hook 'tex-mode-hook 'lsp)
+ (add-hook 'latex-mode-hook 'lsp))
+
+;; For YaTeX
+(with-eval-after-load "yatex"
+ (add-hook 'yatex-mode-hook 'lsp))
+
+;; For bibtex
+(with-eval-after-load "bibtex"
+ (add-hook 'bibtex-mode-hook 'lsp))
+#+end_src
 ***** HTML
 
 #+begin_src emacs-lisp
@@ -407,6 +473,11 @@ This is not it. Org mode is much more
   ;; variables.  This example enables IPython globally:
   (setq python-shell-interpreter "python3.9")
   (setq python-shell-interpreter-args "-i")
+  (use-package lsp-pyright
+    :ensure t
+    :hook (python-mode . (lambda ()
+                            (require 'lsp-pyright)
+                            (lsp))))  ; or lsp-deferred
 
 
   ;;(add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
@@ -464,7 +535,6 @@ This is structural for creating source blocks in org mode, this list will give i
   (add-to-list 'org-structure-template-alist '("py" . "src python")))
 #+end_src
 
-
 ** Other Modes settings
 
 *** Markdown setting
@@ -474,7 +544,6 @@ This is structural for creating source blocks in org mode, this list will give i
 
 
 #+end_src
-
 
 ** Terminal
 
@@ -513,5 +582,10 @@ I'm using vterm but i just congiguring Eshell
 
   (eshell-git-prompt-use-theme 'robbyrussell))
 #+end_src
+
+#+begin_src emacs-lisp
+(use-package vterm
+    :ensure t)
+#+end_src
 * Other 
-ff
+ffd

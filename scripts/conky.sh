@@ -1,3 +1,3 @@
 sleep 5
-conky -d -c ~/.important/conkyleftrc
-conky -d -c ~/.important/conkyrc
+conky -d -c ~/.config/conky/conkyleftrc
+conky -d -c ~/.config/conky/conkyrc
