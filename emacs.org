@@ -99,7 +99,9 @@ This is My basic configuration with gruvbox theme and some UI effects of emacs. 
 		 vterm-mode-hook
 		 eshell-mode-hook
 		 helpful-mode-hook
-		 Custom-mode-hook))
+		 Custom-mode-hook
+           LaTeX-mode-hook
+           text-mode-hook))
   (add-hook mode(lambda () (display-line-numbers-mode 0))))
 
 (use-package dired
@@ -293,7 +295,8 @@ Emacs Org mode is super Powerful and super customizable. this is small customiza
 (use-package org
   :config
   (setq org-ellipsis " ▶"
-	org-hide-emphasis-markers t))
+	org-hide-emphasis-markers t
+  org-indent-mode t))
 
 #+end_src
 
@@ -336,12 +339,12 @@ Emacs Org mode is super Powerful and super customizable. this is small customiza
   (visual-fill-column-mode 1)
   (visual-line-mode 1)
   (variable-pitch-mode 1)
-  (org-indent-mode 1)
   (writeroom-mode 1)
   (electric-pair-mode 0))
 
 (use-package visual-fill-column
-  :hook '((org-mode . efs/org-mode-visual-fill)))
+  :hook '((org-mode . efs/org-mode-visual-fill))
+  :hook '((text-mode . efs/org-mode-visual-fill)))
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
 #+end_src
@@ -383,7 +386,6 @@ This block help me to tangle automatically everytime i save this file.
 
  #+end_src
 
- 
 *** LaTeX Preview inside org
 
 Well, First you need *dvipng*  from package manager and also, *texlive-extra*. This will help to produce Latex png files.
@@ -428,33 +430,6 @@ This is not it. Org mode is much more
 
 #+end_src
 
-***** LaTeX
-#+begin_src emacs-lisp
-;;(add-to-list 'load-path "/path/to/lsp-latex")
-(require 'lsp-latex)
-;; "texlab" must be located at a directory contained in`exec-path'.
-;; If you want to put "texlab" somewhere else,
-;; you can specify the path to "texlab" as follows:
-;; (setq lsp-latex-texlab-executable "/path/to/texlab")
-
-(with-eval-after-load "tex-mode"
- (add-hook 'tex-mode-hook 'lsp)
- (add-hook 'latex-mode-hook 'lsp))
-
-;; For YaTeX
-(with-eval-after-load "yatex"
- (add-hook 'yatex-mode-hook 'lsp))
-
-;; For bibtex
-(with-eval-after-load "bibtex"
- (add-hook 'bibtex-mode-hook 'lsp))
-#+end_src
-***** HTML
-
-#+begin_src emacs-lisp
-;;(use-package html-mode
-;;  :hook (html-mode . lsp-deferred))
-#+end_src
 ***** Python
 
 #+begin_src emacs-lisp
@@ -462,15 +437,6 @@ This is not it. Org mode is much more
     :ensure nil
     :hook (python-mode . lsp-deferred))
 
-  ;;(setq python-shell-interpreter "jupyter"
-  ;;      python-shell-interpreter-args "console --simple-prompt"
-  ;;      python-shell-prompt-detect-failure-warning nil)
-  ;(add-to-list 'python-shell-completion-native-disabled-interpreters
-  ;             "jupyter")
-  ;; … .  You can change
-  ;; your default interpreter and commandline arguments by setting the
-  ;;python-shell-interpreter' and ;;python-shell-interpreter-args'
-  ;; variables.  This example enables IPython globally:
   (setq python-shell-interpreter "python3.9")
   (setq python-shell-interpreter-args "-i")
   (use-package lsp-pyright
@@ -480,9 +446,13 @@ This is not it. Org mode is much more
                             (lsp))))  ; or lsp-deferred
 
 
-  ;;(add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
+#+end_src
 
-  ;;(setq py-autopep8-options '("--max-line-length=100"))
+***** C and C++
+#+begin_src emacs-lisp
+(add-hook 'c++-mode-hook 'lsp)
+(add-hook 'c-mode-hook 'lsp)
+;;(add-hook 'objc-mode-hook 'irony-mode)
 
 #+end_src
 
@@ -535,16 +505,6 @@ This is structural for creating source blocks in org mode, this list will give i
   (add-to-list 'org-structure-template-alist '("py" . "src python")))
 #+end_src
 
-** Other Modes settings
-
-*** Markdown setting
-
-#+begin_src emacs-lisp
-;;here setting of markdown
-
-
-#+end_src
-
 ** Terminal
 
 *** Term-mode
@@ -588,4 +548,29 @@ I'm using vterm but i just congiguring Eshell
     :ensure t)
 #+end_src
 * Other 
-ffd
+** Latex mode
+
+*** Basic
+
+#+begin_src emacs-lisp
+(setq TeX-auto-save t)
+(setq TeX-parse-self t)
+(setq-default TeX-master nil)
+
+(add-hook 'LaTeX-mode-hook 'writeroom-mode)
+;;(add-hook 'LaTeX-mode-hook 'flyspell-mode)
+(add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+;;(add-hook 'LaTex-mode-hook 'display-line-numbers-mode 0)
+
+(setq TeX-PDF-mode t)
+
+;;(require 'tex)
+;;(TeX-global-PDF-mode t)
+
+;;(define-abbrev-table 'TeX-mode-abbrev-table (make-abbrev-table))
+;;(add-hook 'TeX-mode-hook (lambda ()
+;;  (setq abbrev-mode t)
+;;  (setq local-abbrev-table TeX-mode-abbrev-table)))
+
+#+end_src
+    
