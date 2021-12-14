@@ -75,7 +75,7 @@ This is My basic configuration with gruvbox theme and some UI effects of emacs. 
 #+begin_src emacs-lisp
 (custom-set-variables
  '(column-number-mode t)
- '(custom-enabled-themes '(doom-gruvbox))
+ '(custom-enabled-themes '(doom-one-light))
  '(custom-safe-themes
     '("7eea50883f10e5c6ad6f81e153c640b3a288cd8dc1d26e4696f7d40f754cc703" default))
  '(display-time-mode t)
@@ -101,7 +101,8 @@ This is My basic configuration with gruvbox theme and some UI effects of emacs. 
 		 helpful-mode-hook
 		 Custom-mode-hook
            LaTeX-mode-hook
-           text-mode-hook))
+           text-mode-hook
+	   inferior-python-mode-hook))
   (add-hook mode(lambda () (display-line-numbers-mode 0))))
 
 (use-package dired
@@ -340,7 +341,8 @@ Emacs Org mode is super Powerful and super customizable. this is small customiza
   (visual-line-mode 1)
   (variable-pitch-mode 1)
   (writeroom-mode 1)
-  (electric-pair-mode 0))
+  (electric-pair-mode 0)
+  (org-indent-mode 1))
 
 (use-package visual-fill-column
   :hook '((org-mode . efs/org-mode-visual-fill))

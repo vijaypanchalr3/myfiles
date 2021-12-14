@@ -28,7 +28,7 @@ conky.config = {
 conky.text = [[
 
     ${color1}${font Caviar Dreams:size=30}${time %b %e %Y}
-    ${offset -10}${color2}${font Caviar Dreams:size=50}${time %H}${offset 10}${color3}${time %M}
+    ${offset -5}${color2}${font Caviar Dreams:size=50}${time %H}${offset 10}${color3}${time %M}
     
     
     

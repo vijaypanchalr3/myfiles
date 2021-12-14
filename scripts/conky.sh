@@ -1,3 +1,2 @@
-sleep 5
-conky -d -c ~/.config/conky/conkyleftrc
+sleep 4
 conky -d -c ~/.config/conky/conkyrc
