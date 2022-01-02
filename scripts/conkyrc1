@@ -7,7 +7,7 @@ conky.config = {
     alignment="top_right",
     minimum_width=200,
     gap_x=180,
-    gap_y=90,
+    gap_y=50,
     border_inner_margin=10,
     border_outer_margin=10,
     use_xft=true,
@@ -29,6 +29,7 @@ conky.config = {
 conky.text = [[
 
     ${color5}${font Caviar Dreams:size=30}${time %b %e %Y}
+${alignc}${font Caviar Dreams:size=25}${color3}${time %A}
     ${offset -5}${color2}${font Caviar Dreams:size=50}${time %H}${offset 10}${color3}${time %M}
 ${font size=10}${alignc}${color}I T ${color1}L ${color}I S ${color1}A S T I M E
 ${alignc}${if_match ${exec date +"%M"} < 35}${if_match ${exec date +"%M"} >= 15}${if_match ${exec date +"%M"} < 20}${color}${endif}${endif}A ${color1}C ${if_match ${exec date +"%M"} >= 15}${if_match ${exec date +"%M"} < 20}${color}${endif}${endif}Q U A R T E R ${color1}D C

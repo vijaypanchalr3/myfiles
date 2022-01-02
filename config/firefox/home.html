@@ -1,0 +1,26 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this file,
+   - You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; object-src 'none'; script-src resource: chrome:; connect-src https:; img-src https: data: blob:; style-src 'unsafe-inline';">
+    <title data-l10n-id="newtab-page-title">New Tab</title>
+    <link rel="stylesheet" href="./home.css">
+  </head>
+  <body class="home">
+    <div class="searchbar">
+      <input class="textbox" type="text" placeholder="Search on Google..." onkeydown="if (event.keyCode == 13 || event.which == 13) { location='http://www.google.com/search?q=' + encodeURIComponent(document.getElementById('textbox').value);}" />
+    </div>
+    <div class="items">
+      <ul class="boxes">
+        <li><a href="https://www.youtube.com/"><img src="./youtube-logo-2431.svg" alt="youtube"></a></li>
+        <li><a href="https://www.youtube.com/"><img src="./Reddit_Mark_OnWhite.svg" alt=""></a></li>
+        <li><a href="https://www.github.com"><img src="./github.svg" alt="github"></a></li>
+        <li><a href="httos://www.google.com"></a><img src="./Google_2015_logo.svg" alt=""></li>
+      </ul>
+    </div>
+  </body>
+</html>
