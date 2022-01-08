@@ -112,29 +112,33 @@ This is My basic configuration with gruvbox theme and some UI effects of emacs. 
 *** Custom dolists
 
 #+begin_src emacs-lisp
-(dolist (mode '(org-mode-hook
-		 vterm-mode-hook
-		 eshell-mode-hook
-		 helpful-mode-hook
-		 Custom-mode-hook
-           LaTeX-mode-hook
-           text-mode-hook
-	   inferior-python-mode-hook
-           dired-mode-hook
-           neotree-mode-hook))
-  (add-hook mode(lambda () (display-line-numbers-mode 0))))
-(dolist (mode '(neotree-mode-hook))
+  (dolist (mode '(org-mode-hook
+                   vterm-mode-hook
+                   eshell-mode-hook
+                   helpful-mode-hook
+                   Custom-mode-hook
+             LaTeX-mode-hook
+             text-mode-hook
+             inferior-python-mode-hook
+             dired-mode-hook
+             neotree-mode-hook))
+    (add-hook mode(lambda () (display-line-numbers-mode 0))))
+  (dolist (mode '(neotree-mode-hook))
+    (add-hook mode(lambda () (hide-mode-line-mode 1))))
+  (dolist (mode '(dashboard-mode-hook))
   (add-hook mode(lambda () (hide-mode-line-mode 1))))
-(setq-default line-spacing 4)
-(use-package dired
-  :ensure nil
-  :bind (("C-x C-j" . dired-jump))
-  :custom ((dired-listing-switches "-agho --group-directories-first")))
-(use-package dired-single
-  :commands (dired dired-jump))
+  (dolist (mode '(org-mode-hook))
+    (add-hook mode(lambda () (org-num-mode 1))))
+  (setq-default line-spacing 4)
+  (use-package dired
+    :ensure nil
+    :bind (("C-x C-j" . dired-jump))
+    :custom ((dired-listing-switches "-agho --group-directories-first")))
+  (use-package dired-single
+    :commands (dired dired-jump))
 
-(use-package all-the-icons-dired
-  :hook (dired-mode . all-the-icons-dired-mode))
+  (use-package all-the-icons-dired
+    :hook (dired-mode . all-the-icons-dired-mode))
 
 #+end_src
 
@@ -224,11 +228,15 @@ This is My basic configuration with gruvbox theme and some UI effects of emacs. 
 #+end_src
 
 #+begin_src emacs-lisp
-;;vterm keybinds
+  ;;vterm keybinds
 
-(global-set-key [f2] 'vterm-toggle)
-(global-set-key [C-f2] 'vterm-toggle-cd)
+  (global-set-key [f2] 'vterm-toggle)
+  (global-set-key [C-f2] 'vterm-toggle-cd)
 
+  (global-set-key (kbd "C-x <up>") 'windmove-up)
+  (global-set-key (kbd "C-x <down>") 'windmove-down)
+  (global-set-key (kbd "C-x <left>") 'windmove-left)
+  (global-set-key (kbd "C-x <right>") 'windmove-right)
 #+end_src
 
 
@@ -411,7 +419,7 @@ Emacs Org mode is super Powerful and super customizable. this is small customiza
   (setq org-log-done nil)
   (setq backup-directory-alist `(("." . "~/.saves")))
   ;; (setq make-backup-files nil)
-  (setq org-startup-truncated nil)
+  (setq org-startup-truncated t)
   (setq org-html-coding-system 'utf-8-unix)
   (eval-after-load "org"
     '(require 'ox-gfm nil t))
@@ -423,13 +431,15 @@ Emacs Org mode is super Powerful and super customizable. this is small customiza
 *Org bullet lists for configure different level of headings. Also, i set list icon to dot in second block*
 
 #+begin_src emacs-lisp
-(use-package org-bullets
-  :after org
-  :hook (org-mode . org-bullets-mode))
-(setq org-bullets-bullet-list '("  "))
-(font-lock-add-keywords 'org-mode
-                          '(("^ *\\([-]\\) "
-                             (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) ""))))))
+  (use-package org-bullets
+    :after org
+    :hook (org-mode . org-bullets-mode))
+  (setq org-bullets-bullet-list '("  "))
+  (setq org-indent-indentation-per-level 1)
+  (setq org-adapt-indentation nil)
+  (font-lock-add-keywords 'org-mode
+                            '(("^ *\\([-]\\) "
+                               (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) ""))))))
 
 #+end_src
   :custom
@@ -437,15 +447,15 @@ Emacs Org mode is super Powerful and super customizable. this is small customiza
 *** Heading sizes
 
 #+begin_src emacs-lisp
-(dolist (face '((org-level-1 . 1.8)
-                (org-level-2 . 1.4)
-                (org-level-3 . 1.3)
-                (org-level-4 . 1.2)
+(dolist (face '((org-level-1 . 1.3)
+                (org-level-2 . 1.2)
+                (org-level-3 . 1.1)
+                (org-level-4 . 1.1)
                 (org-level-5 . 1.1)
                 (org-level-6 . 1.0)
                 (org-level-7 . 1.0)
                 (org-level-8 . 1.0)))
-  (set-face-attribute (car face) nil :font "ETBembo:style=SemiBoldOSF" :weight 'regular :height (cdr face) :foreground "#392929"))
+  (set-face-attribute (car face) nil :font "Playfair Display:style=Regular" :weight 'regular :height (cdr face) :foreground "#392929"))
 
 
 #+end_src
@@ -454,53 +464,60 @@ Emacs Org mode is super Powerful and super customizable. this is small customiza
 
 
 #+begin_src emacs-lisp
-  (defun efs/org-mode-visual-fill ()
-    (setq visual-fill-column-width 100
-          visual-fill-column-center-text t)
-    (visual-fill-column-mode 1)
-    (visual-line-mode 1)
-    (variable-pitch-mode 1)
-    ;;(writeroom-mode 1)
-    ;;(electric-pair-mode 0)
-    (org-indent-mode 1)
-    (hide-mode-line-mode 1))
+        (defun efs/org-mode-visual-fill ()
+          (setq visual-fill-column-width 100
+                visual-fill-column-center-text t)
+          (visual-fill-column-mode 1)
+          (visual-line-mode 1)
+          (variable-pitch-mode 1)
+          ;;(writeroom-mode 1)
+          ;;(electric-pair-mode 0)
+          (org-indent-mode 1)
+          (hide-mode-line-mode 1))
 
-  (use-package visual-fill-column
-    :hook '((org-mode . efs/org-mode-visual-fill))
-    :hook '((text-mode . efs/org-mode-visual-fill)))
-  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+        (use-package visual-fill-column
+          :hook '((org-mode . efs/org-mode-visual-fill))
+          :hook '((text-mode . efs/org-mode-visual-fill)))
+        (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
 #+end_src
 
 *** Font setting for Org mode
 
 #+begin_src emacs-lisp
-  (use-package mixed-pitch
-    :hook
-    ;; If you want it in all text modes:
-    (text-mode . mixed-pitch-mode)
-    :config
-    (set-face-attribute 'default nil :font "JetBrains Mono NL" :height 110)
-    (set-face-attribute 'fixed-pitch nil :font "JetBrains Mono NL" :height 100)
-    (set-face-attribute 'variable-pitch nil :font "Roboto:style=Regular" :height 130))
+   (use-package mixed-pitch
+     :hook
+     ;; If you want it in all text modes:
+     (text-mode . mixed-pitch-mode)
+     :config
+     (set-face-attribute 'default nil :font "JetBrains Mono NL" :height 110)
+     (set-face-attribute 'fixed-pitch nil :font "JetBrains Mono NL" :height 100)
+     (set-face-attribute 'variable-pitch nil :font "Roboto:style=Regular" :height 130))
   (custom-theme-set-faces
      'user
      '(org-block ((t (:inherit fixed-pitch))))
      '(org-code ((t (:inherit (shadow fixed-pitch)))))
-     '(org-document-info ((t (:foreground "dark orange"))))
-     '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
-     '(org-indent ((t (:inherit (org-hide fixed-pitch)))))
-     '(org-link ((t (:foreground "royal blue" :underline t))))
-     '(org-meta-line ((t (:inherit (font-lock-comment-face fixed-pitch)))))
-     '(org-property-value ((t (:inherit fixed-pitch))) t)
-     '(org-special-keyword ((t (:inherit (font-lock-comment-face fixed-pitch)))))
-     '(org-table ((t (:inherit fixed-pitch :foreground "#83a598"))))
-     '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 1))))
-     '(org-verbatim ((t (:inherit (shadow fixed-pitch))))))
-  ;; (custom-theme-set-faces
-  ;;    'user
-  ;;    '(variable-pitch ((t (:family "ETBembo" :height 180 :weight thin))))
-  ;;    '(fixed-pitch ((t ( :family "Fira Code Retina" :height 160)))))
+     '(org-document-title ((t (:family "ETBembo" :height 140 :weight bold :foreground "grey"))))
+     '(org-tag ((t (:family "ETBembo" :height 140 :weight thin :foreground "#D35858"))))
+     '(org-special-keyword ((t (:inherit (variable-pitch) :foreground "#58D384"))))
+     '(org-document-info ((t (:inherit (variable-pitch) :family "ETBembo" :height 100 :weight thin :foreground "grey"))))
+     '(org-document-info-keyword ((t (:family "ETBembo" :height 100 :weight thin :foreground "grey"))))
+     '(org-property-value ((t (:family "ETBembo" :height 100 :weight thin :foreground "grey"))))
+     '(org-meta-line ((t (:family "ETBembo" :height 100 :weight thin :foreground "grey"))))
+   ;;  '(org-document-info ((t (:foreground "grey"))))
+   ;;  '(org-document-info-keyword ((t (:inherit (fixed-pitch)))))
+   ;;  '(org-indent ((t (:inherit (org-hide fixed-pitch)))))
+     '(org-link ((t (:foreground "royal blue" :underline t)))))
+   ;;    '(org-meta-line ((t (:inherit (font-lock-comment-face fixed-pitch)))))
+   ;;    '(org-property-value ((t (:inherit fixed-pitch))) t)
+   ;;    '(org-special-keyword ((t (:inherit (font-lock-comment-face fixed-pitch)))))
+   ;;    '(org-table ((t (:inherit fixed-pitch :foreground "#83a598"))))
+   ;;    '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 1))))
+   ;;    '(org-verbatim ((t (:inherit (shadow fixed-pitch))))))
+   ;; ;; (custom-theme-set-faces
+   ;;    'user
+   ;;    '(variable-pitch ((t (:family "ETBembo" :height 180 :weight thin))))
+   ;;    '(fixed-pitch ((t ( :family "Fira Code Retina" :height 160)))))
 
 #+end_src
 
@@ -528,8 +545,6 @@ This block help me to tangle automatically everytime i save this file.d
  #+end_src
 
  #+RESULTS:
- | (lambda nil (add-hook 'after-save-hook #'efs/org-babel-tangle-config)) | org-tempo-setup | #[0 \300\301\302\303\304$\207 [add-hook change-major-mode-hook org-show-all append local] 5] | #[0 \300\301\302\303\304$\207 [add-hook change-major-mode-hook org-babel-show-result-all append local] 5] | org-babel-result-hide-spec | org-babel-hide-all-hashes | (lambda nil (display-line-numbers-mode 0)) |
-
  
 *** LaTeX Preview inside org
 
@@ -836,5 +851,32 @@ Zoom mode is balanced zoom split layout
 
 This is my first configuration and use of famous org roam.
 #+begin_src emacs-lisp
-(setq org-roam-directory (file-truename "~/org-roam"))
+        (setq org-roam-directory (file-truename "~/org-roam"))
+        (use-package org-roam
+          :after org
+          :config
+          (org-roam-setup)
+          :custom
+          (org-roam-capture-templates
+           '(("d" "default" plain
+            "\n: ──────────────────────────────────────────────────────────────────────────────────────────────────────────────\n\n%?"
+            :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+            :unnarrowed t)
+             ("b" "book notes" plain
+              "\n: ──────────────────────────────────────────────────────────────────────────────────────────────────────────────\n*Author* : %^{Author} \n*Title* : ${title} \n: ──────────────────────────────────────────────────────────────────────────────────────────────────────────────\n\n%?"
+              :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags: book")
+              :unnarrowed t)))
+          :bind (("C-c n f" . org-roam-node-find)
+                 ("C-c n r" . org-roam-node-random)		    
+                 (:map org-mode-map
+                       (("C-c n i" . org-roam-node-insert)
+                        ("C-c n o" . org-id-get-create)
+                        ("C-c n t" . org-roam-tag-add)
+                        ("C-c n a" . org-roam-alias-add)
+                        ("C-c n l" . org-roam-buffer-toggle)))))
+        (setq org-roam-completion-everywhere t)
 #+end_src
+
+
+** Hacks from systemcrafters
+This  is code i took from Systemcrafters =link= ,
