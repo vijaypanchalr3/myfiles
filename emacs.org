@@ -94,7 +94,7 @@ This is My basic configuration with gruvbox theme and some UI effects of emacs. 
  '(column-number-mode t)
  '(custom-enabled-themes '(spacemacs-light))
  '(custom-safe-themes
-   '("fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "e8df30cd7fb42e56a4efc585540a2e63b0c6eeb9f4dc053373e05d774332fc13" "f91395598d4cb3e2ae6a2db8527ceb83fed79dbaf007f435de3e91e5bda485fb" "246a9596178bb806c5f41e5b571546bb6e0f4bd41a9da0df5dfbca7ec6e2250c" "7eea50883f10e5c6ad6f81e153c640b3a288cd8dc1d26e4696f7d40f754cc703" default))
+   '("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "a0be7a38e2de974d1598cf247f607d5c1841dbcef1ccd97cded8bea95a7c7639" "846b3dc12d774794861d81d7d2dcdb9645f82423565bfb4dad01204fa322dbd5" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "e8df30cd7fb42e56a4efc585540a2e63b0c6eeb9f4dc053373e05d774332fc13" "f91395598d4cb3e2ae6a2db8527ceb83fed79dbaf007f435de3e91e5bda485fb" "246a9596178bb806c5f41e5b571546bb6e0f4bd41a9da0df5dfbca7ec6e2250c" "7eea50883f10e5c6ad6f81e153c640b3a288cd8dc1d26e4696f7d40f754cc703" default))
  '(display-time-mode t)
  '(electric-pair-mode t)
  '(font-use-system-font nil)
@@ -415,6 +415,7 @@ Emacs Org mode is super Powerful and super customizable. this is small customiza
     :config
     (setq org-ellipsis " "
           org-hide-emphasis-markers t))
+  ;; (setq-default line-spacing 0)
   (provide 'emacs-orgmode-config)
   (setq org-log-done nil)
   (setq backup-directory-alist `(("." . "~/.saves")))
@@ -455,7 +456,7 @@ Emacs Org mode is super Powerful and super customizable. this is small customiza
                 (org-level-6 . 1.0)
                 (org-level-7 . 1.0)
                 (org-level-8 . 1.0)))
-  (set-face-attribute (car face) nil :font "Playfair Display:style=Regular" :weight 'regular :height (cdr face) :foreground "#392929"))
+  (set-face-attribute (car face) nil :weight 'bold :height (cdr face)))
 
 
 #+end_src
@@ -492,7 +493,7 @@ Emacs Org mode is super Powerful and super customizable. this is small customiza
      :config
      (set-face-attribute 'default nil :font "JetBrains Mono NL" :height 110)
      (set-face-attribute 'fixed-pitch nil :font "JetBrains Mono NL" :height 100)
-     (set-face-attribute 'variable-pitch nil :font "Roboto:style=Regular" :height 130))
+     (set-face-attribute 'variable-pitch nil :font "Times New Roman:style=Regular" :height 150))
   (custom-theme-set-faces
      'user
      '(org-block ((t (:inherit fixed-pitch))))
@@ -545,7 +546,8 @@ This block help me to tangle automatically everytime i save this file.d
  #+end_src
 
  #+RESULTS:
- 
+
+
 *** LaTeX Preview inside org
 
 Well, First you need *dvipng*  from package manager and also, *texlive-extra*. This will help to produce Latex png files.
@@ -689,6 +691,29 @@ This is not it. Org mode is much more
   ;;  ((nil )))
 #+end_src
 (:overline "#A7A6AA" :foreground "#008ED1" :background "#EAEAFF")
+*** Olivetti mode
+#+begin_src emacs-lisp
+  ;; Distraction-free screen
+  (use-package olivetti
+    :init
+    (setq olivetti-body-width .67)
+    :config
+    (defun distraction-free ()
+      "Distraction-free writing environment"
+      (interactive)
+      (if (equal olivetti-mode nil)
+          (progn
+            (window-configuration-to-register 1)
+            (delete-other-windows)
+            (text-scale-increase 2)
+            (olivetti-mode t))
+        (progn
+          (jump-to-register 1)
+          (olivetti-mode 0)
+          (text-scale-decrease 2))))
+    :bind
+    (("<f9>" . distraction-free)))
+#+end_src
 * LSP
 LSP mode is single hand funcyion for making emacs ide.
 - [[https://emacs-lsp.github.io/lsp-mode/][Official website]]
@@ -859,11 +884,11 @@ This is my first configuration and use of famous org roam.
           :custom
           (org-roam-capture-templates
            '(("d" "default" plain
-            "\n: ──────────────────────────────────────────────────────────────────────────────────────────────────────────────\n\n%?"
+            "\n\n\n%?"
             :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
             :unnarrowed t)
              ("b" "book notes" plain
-              "\n: ──────────────────────────────────────────────────────────────────────────────────────────────────────────────\n*Author* : %^{Author} \n*Title* : ${title} \n: ──────────────────────────────────────────────────────────────────────────────────────────────────────────────\n\n%?"
+              "\n*Author* : %^{Author} \n*Title* : ${title} \n\n\n\n%?"
               :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags: book")
               :unnarrowed t)))
           :bind (("C-c n f" . org-roam-node-find)
