@@ -1,6 +1,8 @@
-﻿#+title: New configuration file
+﻿---
+#+title: New configuration file
 #+PROPERTY: header-args:emacs-lisp :tangle /home/vijay/.emacs :mkdirp yes
 #+STARTUP: hideblocks
+---
 
 *Welcome to RisEmacs, my personal config files ,*
 
@@ -18,26 +20,30 @@ This is my whole configuration file. spacemacs theme looks nice.
 ** Encoding system
 
 #+begin_src emacs-lisp
-;; disable CJK coding/encoding (Chinese/Japanese/Korean characters)
-(setq utf-translate-cjk-mode nil)
 
-(set-language-environment 'utf-8)
-(setq locale-coding-system 'utf-8)
 
-;; set the default encoding system
-(prefer-coding-system 'utf-8)
-(setq default-file-name-coding-system 'utf-8)
-(set-default-coding-systems 'utf-8)
-(set-terminal-coding-system 'utf-8)
-(set-keyboard-coding-system 'utf-8)
-;; backwards compatibility as default-buffer-file-coding-system
-;; is deprecated in 23.2.
-(if (boundp buffer-file-coding-system)
-    (setq buffer-file-coding-system 'utf-8)
-  (setq default-buffer-file-coding-system 'utf-8))
+  ;; disable CJK coding/encoding (Chinese/Japanese/Korean characters)
+  (setq utf-translate-cjk-mode nil)
 
-;; Treat clipboard input as UTF-8 string first; compound text next, etc.
-(setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
+  (set-language-environment 'utf-8)
+  (setq locale-coding-system 'utf-8)
+
+  ;; set the default encoding system
+  (prefer-coding-system 'utf-8)
+  (setq default-file-name-coding-system 'utf-8)
+  (set-default-coding-systems 'utf-8)
+  (set-terminal-coding-system 'utf-8)
+  (set-keyboard-coding-system 'utf-8)
+  ;; backwards compatibility as default-buffer-file-coding-system
+  ;; is deprecated in 23.2.
+  (if (boundp buffer-file-coding-system)
+      (setq buffer-file-coding-system 'utf-8)
+    (setq default-buffer-file-coding-system 'utf-8))
+
+  ;; Treat clipboard input as UTF-8 string first; compound text next, etc.
+  (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
+
+  
 #+end_src
 
 ** Package system
@@ -72,16 +78,6 @@ This is also copied from *emacs from scratch*,
 ** Packages
 
 #+begin_src emacs-lisp
-;;(require 'mixed-pitch)
-;;(require 'writeroom-mode)
-;;(require 'company-box)
-;;(require 'lsp-mode)
-;;(require 'visual-fill-column)
-;;(require 'org-bullets)
-;;(require 'helpful)
-;;(require 'doom-modeline)
-;;(require 'doom-themes)
-;;(require 'magit)
 #+end_src
 ** Basic configuration
 
@@ -90,55 +86,59 @@ This is My basic configuration with gruvbox theme and some UI effects of emacs. 
 *** Set variables
 
 #+begin_src emacs-lisp
-(custom-set-variables
- '(column-number-mode t)
- '(custom-enabled-themes '(spacemacs-light))
- '(custom-safe-themes
-   '("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "a0be7a38e2de974d1598cf247f607d5c1841dbcef1ccd97cded8bea95a7c7639" "846b3dc12d774794861d81d7d2dcdb9645f82423565bfb4dad01204fa322dbd5" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "e8df30cd7fb42e56a4efc585540a2e63b0c6eeb9f4dc053373e05d774332fc13" "f91395598d4cb3e2ae6a2db8527ceb83fed79dbaf007f435de3e91e5bda485fb" "246a9596178bb806c5f41e5b571546bb6e0f4bd41a9da0df5dfbca7ec6e2250c" "7eea50883f10e5c6ad6f81e153c640b3a288cd8dc1d26e4696f7d40f754cc703" default))
- '(display-time-mode t)
- '(electric-pair-mode t)
- '(font-use-system-font nil)
- '(global-display-line-numbers-mode t)
- '(menu-bar-mode nil)
- '(org-fontify-done-headline nil)
- '(org-fontify-todo-headline nil)
- '(package-selected-packages
-   '(mixed-pitch writeroom-mode company-box lsp-mode visual-fill-column org-bullets helpful doom-modeline doom-themes magit))
- '(scroll-bar-mode nil)
- '(show-paren-mode t)
- '(size-indication-mode t)
- '(tool-bar-mode nil))
+  ;; set transparency
+  ;;(set-frame-parameter (selected-frame) 'alpha '(90 90))
+  ;;(add-to-list 'default-frame-alist '(alpha 90 90))
+  (custom-set-variables
+   '(column-number-mode t)
+   '(custom-enabled-themes '(modus-vivendi))
+   '(custom-safe-themes
+   '("5d6cc3e22172f051d68c0c95d79f3dff0e800f2d107f6f6b9220ed5380285c50" "2420401709d448e5999b76005aece99fa3d27e17a6d2312b40636655f0efbc6f" "0d01e1e300fcafa34ba35d5cf0a21b3b23bc4053d388e352ae6a901994597ab1" "f7fed1aadf1967523c120c4c82ea48442a51ac65074ba544a5aefc5af490893b" "d6844d1e698d76ef048a53cefe713dbbe3af43a1362de81cdd3aefa3711eae0d" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "a0be7a38e2de974d1598cf247f607d5c1841dbcef1ccd97cded8bea95a7c7639" "846b3dc12d774794861d81d7d2dcdb9645f82423565bfb4dad01204fa322dbd5" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "e8df30cd7fb42e56a4efc585540a2e63b0c6eeb9f4dc053373e05d774332fc13" "f91395598d4cb3e2ae6a2db8527ceb83fed79dbaf007f435de3e91e5bda485fb" "246a9596178bb806c5f41e5b571546bb6e0f4bd41a9da0df5dfbca7ec6e2250c" "7eea50883f10e5c6ad6f81e153c640b3a288cd8dc1d26e4696f7d40f754cc703" default))
+   '(display-time-mode t)
+   '(electric-pair-mode t)
+   '(solaire-global-mode t)
+   '(font-use-system-font nil)
+   '(global-display-line-numbers-mode t)
+   '(menu-bar-mode nil)
+   '(org-fontify-done-headline nil)
+   '(org-fontify-todo-headline nil)
+   '(package-selected-packages
+     '(mixed-pitch writeroom-mode company-box lsp-mode visual-fill-column org-bullets helpful doom-modeline doom-themes magit))
+   '(scroll-bar-mode nil)
+   '(show-paren-mode t)
+   '(size-indication-mode t)
+   '(tool-bar-mode nil))
 #+end_src
 *** Custom dolists
 
 #+begin_src emacs-lisp
-  (dolist (mode '(org-mode-hook
-                   vterm-mode-hook
-                   eshell-mode-hook
-                   helpful-mode-hook
-                   Custom-mode-hook
-             LaTeX-mode-hook
-             text-mode-hook
-             inferior-python-mode-hook
-             dired-mode-hook
-             neotree-mode-hook))
-    (add-hook mode(lambda () (display-line-numbers-mode 0))))
-  (dolist (mode '(neotree-mode-hook))
-    (add-hook mode(lambda () (hide-mode-line-mode 1))))
-  (dolist (mode '(dashboard-mode-hook))
-  (add-hook mode(lambda () (hide-mode-line-mode 1))))
-  (dolist (mode '(org-mode-hook))
-    (add-hook mode(lambda () (org-num-mode 1))))
-  (setq-default line-spacing 4)
-  (use-package dired
-    :ensure nil
-    :bind (("C-x C-j" . dired-jump))
-    :custom ((dired-listing-switches "-agho --group-directories-first")))
-  (use-package dired-single
-    :commands (dired dired-jump))
+        (dolist (mode '(org-mode-hook
+                         vterm-mode-hook
+                         eshell-mode-hook
+                         helpful-mode-hook
+                         Custom-mode-hook
+                         LaTeX-mode-hook
+                         inferior-python-mode-hook
+                         dired-mode-hook
+                         neotree-mode-hook
+                         image-mode-hook))
+          (add-hook mode(lambda () (display-line-numbers-mode 0))))
+        (dolist (mode '(neotree-mode-hook
+                        dashboard-mode-hook
+                        image-mode-hook))
+          (add-hook mode(lambda () (hide-mode-line-mode 1))))
+        (dolist (mode '(org-mode-hook))
+          (add-hook mode(lambda () (org-num-mode 1))))
+        (setq-default line-spacing 4)
+        ;;(use-package dired
+        ;;  :ensure nil
+        ;;  :bind (("C-x C-j" . dired-jump))
+        ;;  :custom ((dired-listing-switches "-agho --group-directories-first")))
+        ;;(use-package dired-single
+         ;; :commands (dired dired-jump))
 
-  (use-package all-the-icons-dired
-    :hook (dired-mode . all-the-icons-dired-mode))
+        ;;(use-package all-the-icons-dired
+         ;; :hook (dired-mode . all-the-icons-dired-mode))
 
 #+end_src
 
@@ -154,7 +154,6 @@ This is My basic configuration with gruvbox theme and some UI effects of emacs. 
   :init (doom-modeline-mode 1)
   :config
   (setq doom-modeline-height 25)
-  (setq doom-modeline-modal-icon 'evil)
   (setq doom-modeline-buffer-modification-icon t)
   (setq doom-modeline-window-width-limit fill-column)
   (setq doom-modeline-buffer-file-name-style 'truncate-upto-project)
@@ -197,7 +196,7 @@ This is My basic configuration with gruvbox theme and some UI effects of emacs. 
 ;;(setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
 (setq dashboard-banner-logo-title nil)
 ;; Set the banner
-(setq dashboard-startup-banner "~/.emacs.d/drawing.png")
+(setq dashboard-startup-banner "~/.emacs.d/drawing2.png")
 ;; (setq dashboard-startup-banner nil)
 ;; Value can be
 ;; 'official which displays the official emacs logo
@@ -217,7 +216,7 @@ This is My basic configuration with gruvbox theme and some UI effects of emacs. 
 ;;(dashboard-modify-heading-icons '((recents . "file-text")
 ;;                                  (bookmarks . "book")))
 (setq dashboard-set-navigator t)
-(setq dashboard-set-footer nil)
+(setq dashboard-set-footer t)
 
 #+end_src
 ** Key-bindings 
@@ -358,7 +357,6 @@ This is structural for creating source blocks in org mode, this list will give i
 
 #+RESULTS:
 
-
 ** Terminal
 
 *** Term-mode
@@ -408,7 +406,7 @@ Emacs Org mode is super Powerful and super customizable. this is small customiza
 
 *Org Mode Links* : [[https://orgmode.org/][Homepage]], [[https://orgmode.org/manual/][Manual]] 
 
-*** Basic customization for Org mode
+** Basic customization for Org mode
 
 #+begin_src emacs-lisp
   (use-package org
@@ -418,6 +416,8 @@ Emacs Org mode is super Powerful and super customizable. this is small customiza
   ;; (setq-default line-spacing 0)
   (provide 'emacs-orgmode-config)
   (setq org-log-done nil)
+  (setq global-page-break-line-mode t)
+  ;; (setq header-line-format " ")
   (setq backup-directory-alist `(("." . "~/.saves")))
   ;; (setq make-backup-files nil)
   (setq org-startup-truncated t)
@@ -440,28 +440,28 @@ Emacs Org mode is super Powerful and super customizable. this is small customiza
   (setq org-adapt-indentation nil)
   (font-lock-add-keywords 'org-mode
                             '(("^ *\\([-]\\) "
-                               (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) ""))))))
+                               (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) " "))))))
 
 #+end_src
   :custom
   (org-bullets-bullet-list '(" "" "" "" "" "" "" "))
-*** Heading sizes
+** Heading sizes
 
 #+begin_src emacs-lisp
-(dolist (face '((org-level-1 . 1.3)
-                (org-level-2 . 1.2)
-                (org-level-3 . 1.1)
-                (org-level-4 . 1.1)
-                (org-level-5 . 1.1)
-                (org-level-6 . 1.0)
-                (org-level-7 . 1.0)
-                (org-level-8 . 1.0)))
-  (set-face-attribute (car face) nil :weight 'bold :height (cdr face)))
+  ;; (dolist (face '((org-level-1 . 1.3)
+  ;;                 (org-level-2 . 1.2)
+  ;;                 (org-level-3 . 1.1)
+  ;;                 (org-level-4 . 1.1)
+  ;;                 (org-level-5 . 1.1)
+  ;;                 (org-level-6 . 1.0)
+  ;;                 (org-level-7 . 1.0)
+  ;;                 (org-level-8 . 1.0)))
+  ;;   (set-face-attribute (car face) nil :weight 'bold :height (cdr face)))
 
 
 #+end_src
 
-*** Margin setting for Org mode
+** Margin setting for Org mode
 
 
 #+begin_src emacs-lisp
@@ -477,13 +477,13 @@ Emacs Org mode is super Powerful and super customizable. this is small customiza
           (hide-mode-line-mode 1))
 
         (use-package visual-fill-column
-          :hook '((org-mode . efs/org-mode-visual-fill))
-          :hook '((text-mode . efs/org-mode-visual-fill)))
+          :hook '((org-mode . efs/org-mode-visual-fill)))
+          ;; :hook '((text-mode . efs/org-mode-visual-fill))
         (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
 #+end_src
 
-*** Font setting for Org mode
+** Font setting for Org mode
 
 #+begin_src emacs-lisp
    (use-package mixed-pitch
@@ -491,46 +491,44 @@ Emacs Org mode is super Powerful and super customizable. this is small customiza
      ;; If you want it in all text modes:
      (text-mode . mixed-pitch-mode)
      :config
-     (set-face-attribute 'default nil :font "JetBrains Mono NL" :height 110)
-     (set-face-attribute 'fixed-pitch nil :font "JetBrains Mono NL" :height 100)
+     ;;(set-face-attribute 'default nil :font "JetBrains Mono NL" :height 105)
+     (set-face-attribute 'fixed-pitch nil :font "JetBrains Mono NL" :height 110)
      (set-face-attribute 'variable-pitch nil :font "Times New Roman:style=Regular" :height 150))
   (custom-theme-set-faces
      'user
      '(org-block ((t (:inherit fixed-pitch))))
      '(org-code ((t (:inherit (shadow fixed-pitch)))))
-     '(org-document-title ((t (:family "ETBembo" :height 140 :weight bold :foreground "grey"))))
-     '(org-tag ((t (:family "ETBembo" :height 140 :weight thin :foreground "#D35858"))))
-     '(org-special-keyword ((t (:inherit (variable-pitch) :foreground "#58D384"))))
-     '(org-document-info ((t (:inherit (variable-pitch) :family "ETBembo" :height 100 :weight thin :foreground "grey"))))
-     '(org-document-info-keyword ((t (:family "ETBembo" :height 100 :weight thin :foreground "grey"))))
-     '(org-property-value ((t (:family "ETBembo" :height 100 :weight thin :foreground "grey"))))
-     '(org-meta-line ((t (:family "ETBembo" :height 100 :weight thin :foreground "grey"))))
-   ;;  '(org-document-info ((t (:foreground "grey"))))
-   ;;  '(org-document-info-keyword ((t (:inherit (fixed-pitch)))))
-   ;;  '(org-indent ((t (:inherit (org-hide fixed-pitch)))))
-     '(org-link ((t (:foreground "royal blue" :underline t)))))
-   ;;    '(org-meta-line ((t (:inherit (font-lock-comment-face fixed-pitch)))))
-   ;;    '(org-property-value ((t (:inherit fixed-pitch))) t)
-   ;;    '(org-special-keyword ((t (:inherit (font-lock-comment-face fixed-pitch)))))
-   ;;    '(org-table ((t (:inherit fixed-pitch :foreground "#83a598"))))
-   ;;    '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 1))))
-   ;;    '(org-verbatim ((t (:inherit (shadow fixed-pitch))))))
-   ;; ;; (custom-theme-set-faces
-   ;;    'user
-   ;;    '(variable-pitch ((t (:family "ETBembo" :height 180 :weight thin))))
-   ;;    '(fixed-pitch ((t ( :family "Fira Code Retina" :height 160)))))
+     '(org-document-title ((t (:height 140 :weight bold))))
+     '(org-tag ((t (:height 100 :weight thin))))
+     '(org-special-keyword ((t (:height 100))))
+     '(org-document-info ((t (:height 100 :weight thin))))
+     '(org-document-info-keyword ((t (:height 100 :weight thin))))
+     '(org-property-value ((t (:height 100 :weight thin))))
+     '(org-meta-line ((t (:height 100 :weight thin))))
+     '(org-verbatim ((t (:height 100 :weight thin))))
+     '(org-block-begin-line ((t (:height 100 :weight thin))))
+     '(org-block-end-line ((t (:height 100 :weight thin))))
+     '(org-drawer ((t (:height 100 :weight thin))))
+     ;; '(org-date ((t (:height 100 :weight thin :foreground "grey"))))
+     '(org-link ((t (:underline t)))))
 
 #+end_src
 
-*** Emacs-Org-Babel language support
+** Emacs-Org-Babel language support
 
 This is give way to use language in emacs org mode for execution.
 
  #+begin_src emacs-lisp
+   (setq org-confirm-babel-evaluate nil)
+   (setq org-babel-python-command "python3")
+   (org-babel-do-load-languages
+     'org-babel-load-languages
+     '((emacs-lisp . t)
+       (python . t)))
 
  #+end_src
 
-*** Tangle automation
+** Tangle automation
 This block help me to tangle automatically everytime i save this file.d
 
  #+begin_src emacs-lisp
@@ -546,9 +544,8 @@ This block help me to tangle automatically everytime i save this file.d
  #+end_src
 
  #+RESULTS:
-
-
-*** LaTeX Preview inside org
+ 
+** LaTeX Preview inside org
 
 Well, First you need *dvipng*  from package manager and also, *texlive-extra*. This will help to produce Latex png files.
 
@@ -558,11 +555,11 @@ Techniqly, i can use imagemagick and i always have that but i think that's too b
 (setq org-latex-create-formula-image-program 'dvipng)
 (plist-put org-format-latex-options :scale 2)
 #+end_src
-*** Bullets-setting
+** Bullets-setting
 This all functionality copy pasted from this site > [[https://thibautbenjamin.github.io/emacs/org-icons]]
 I will make bullets iconful,
 
-**** org-superstar
+*** org-superstar
 
 #+begin_src emacs-lisp
 ;;here i will setting org-superstar
@@ -575,94 +572,32 @@ I will make bullets iconful,
 
 **** Removing todo keywords
 #+begin_src emacs-lisp
-;;(defun tb/org-mode-setup ()
-    ;; (org-indent-mode)
-;;    (setq prettify-symbols-unprettify-at-point 'right-edge)
-;;    (push '("[ ]" .  "☐") prettify-symbols-alist)
-;;    (push '("[X]" . "☑") prettify-symbols-alist)
-;;    (push '("[-]" . "❍") prettify-symbols-alist)
-;;    (push '("TODO" . "") prettify-symbols-alist)
-;;    (push '("DONE" . "") prettify-symbols-alist)
-;;    (push '("BRANCH" . "") prettify-symbols-alist)
-;;    (push '("MR" . "") prettify-symbols-alist)
-;;    (push '("MERGED" . "") prettify-symbols-alist)
-;;    (push '("FORK" . "") prettify-symbols-alist)
-;;    (push '("ISSUE" . "") prettify-symbols-alist)
-;;    (push '("GITHUB" . "") prettify-symbols-alist)
-;;    (push '("WRITING" . "") prettify-symbols-alist)
-;;    (push '("WRITE" . "") prettify-symbols-alist)
-;;    (prettify-symbols-mode))
-(setq org-todo-keywords
-      '(
-        (sequence "IDEA(i)" "TODO(t)" "STARTED(s)" "NEXT(n)" "WAITING(w)" "|" "DONE(d)")
-        (sequence "|" "CANCELED(c)" "DELEGATED(l)" "SOMEDAY(f)")
-        ))
+  (setq org-todo-keywords
+        '(
+          (sequence "IDEA(i)" "TODO(t)" "STARTED(s)" "NEXT(n)" "WAITING(w)" "|" "DONE(d)")
+          (sequence "|" "CANCELED(c)" "DELEGATED(l)" "SOMEDAY(f)")))
+  ;;  ("TODO" . (:foreground "#24448C" :weight bold))
+  (setq org-todo-keyword-faces
+        '(("IDEA" . (:foreground "#F8BC5C" :weight bold))
+          ("NEXT" . (:foreground "#74A466" :weight bold))
+          ("STARTED" . (:foreground "#DC4424" :weight bold))
+          ("WAITING" . (:foreground "#CCA4A0" :weight bold))
+          ("CANCELED" . (:foreground "LimeGreen" :weight bold))
+          ("DELEGATED" . (:foreground "LimeGreen" :weight bold))
+          ("SOMEDAY" . (:foreground "LimeGreen" :weight bold))))
 
-(setq org-todo-keyword-faces
-      '(("IDEA" . (:foreground "GoldenRod" :weight bold))
-        ("NEXT" . (:foreground "IndianRed1" :weight bold))
-        ("STARTED" . (:foreground "OrangeRed" :weight bold))
-        ("WAITING" . (:foreground "coral" :weight bold))
-        ("CANCELED" . (:foreground "LimeGreen" :weight bold))
-        ("DELEGATED" . (:foreground "LimeGreen" :weight bold))
-        ("SOMEDAY" . (:foreground "LimeGreen" :weight bold))
-        ))
 
-(setq org-tag-persistent-alist
-      '((:startgroup . nil)
-        ("HOME" . ?h)
-        ("RESEARCH" . ?r)
-        ("TEACHING" . ?t)
-        (:endgroup . nil)
-        (:startgroup . nil)
-        ("OS" . ?o)
-        ("DEV" . ?d)
-        ("WWW" . ?w)
-        (:endgroup . nil)
-        (:startgroup . nil)
-        ("EASY" . ?e)
-        ("MEDIUM" . ?m)
-        ("HARD" . ?a)
-        (:endgroup . nil)
-        ("UCANCODE" . ?c)
-        ("URGENT" . ?u)
-        ("KEY" . ?k)
-        ("BONUS" . ?b)
-        ("noexport" . ?x)
-        )
-      )
+  (setq org-fast-tag-selection-single-key t)
+  (setq org-use-fast-todo-selection t)
+  (setq org-reverse-note-order t)
 
-(setq org-tag-faces
-      '(
-        ("HOME" . (:foreground "GoldenRod" :weight bold))
-        ("RESEARCH" . (:foreground "GoldenRod" :weight bold))
-        ("TEACHING" . (:foreground "GoldenRod" :weight bold))
-        ("OS" . (:foreground "IndianRed1" :weight bold))
-        ("DEV" . (:foreground "IndianRed1" :weight bold))
-        ("WWW" . (:foreground "IndianRed1" :weight bold))
-        ("URGENT" . (:foreground "Red" :weight bold))
-        ("KEY" . (:foreground "Red" :weight bold))
-        ("EASY" . (:foreground "OrangeRed" :weight bold))
-        ("MEDIUM" . (:foreground "OrangeRed" :weight bold))
-        ("HARD" . (:foreground "OrangeRed" :weight bold))
-        ("BONUS" . (:foreground "GoldenRod" :weight bold))
-        ("UCANCODE" . (:foreground "GoldenRod" :weight bold))
-        ("noexport" . (:foreground "LimeGreen" :weight bold))
-        )
-)
-
-(setq org-fast-tag-selection-single-key t)
-(setq org-use-fast-todo-selection t)
-
-(setq org-reverse-note-order t)
-
-(setq org-capture-templates
-      '(("t" "Todo" entry (file+headline "~/org/mygtd.org" "Tasks")
-         "* TODO %?\nAdded: %U\n" :prepend t :kill-buffer t)
-        ("i" "Idea" entry (file+headline "~/org/mygtd.org" "Someday/Maybe")
-         "* IDEA %?\nAdded: %U\n" :prepend t :kill-buffer t)
-        )
-      )
+  ;; (setq org-capture-templates
+  ;;       '(("t" "Todo" entry (file+headline "~/org/mygtd.org" "Tasks")
+  ;;          "* TODO %?\nAdded: %U\n" :prepend t :kill-buffer t)
+  ;;         ("i" "Idea" entry (file+headline "~/org/mygtd.org" "Someday/Maybe")
+  ;;          "* IDEA %?\nAdded: %U\n" :prepend t :kill-buffer t)
+  ;;         )
+  ;;       )
 
 #+end_src
 *** org-pretty-table
@@ -672,7 +607,7 @@ I will make bullets iconful,
 ;;  :ensure nil
 ;;  :hook (org-mode . org-pretty-table-mode))
 #+end_src
-*** Some ideas 
+** Some ideas 
 
 - Check This webiste for imformation about latex and that stuff https://lucidmanager.org/productivity/ricing-org-mode/
 - [X]  Also check This bullets 
@@ -681,7 +616,7 @@ I will make bullets iconful,
 
 
 This is not it. Org mode is much more
-*** Source block customization
+** Source block customization
 #+begin_src emacs-lisp
   ;; (org-block-begin-line
   ;;  ((t (:underline "#A7A6AA" :foreground "#008ED1" :background "#EAEAFF"))))
@@ -691,7 +626,7 @@ This is not it. Org mode is much more
   ;;  ((nil )))
 #+end_src
 (:overline "#A7A6AA" :foreground "#008ED1" :background "#EAEAFF")
-*** Olivetti mode
+** Olivetti mode
 #+begin_src emacs-lisp
   ;; Distraction-free screen
   (use-package olivetti
@@ -722,7 +657,7 @@ LSP mode is single hand funcyion for making emacs ide.
 - [[https://company-mode.github.io/][company-mode official site]]
 - latex is still outside of functionality
 
-*** LSP- configuration
+** LSP- configuration
 #+begin_src emacs-lisp
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
@@ -732,9 +667,9 @@ LSP mode is single hand funcyion for making emacs ide.
   (lsp-enable-which-key-integration t))
 #+end_src
 
-*** Language configuration
+** Language configuration
 
-***** CSS
+*** CSS
 
 #+begin_src emacs-lisp
 (use-package css-mode
@@ -745,7 +680,7 @@ LSP mode is single hand funcyion for making emacs ide.
 
 #+end_src
 
-***** Python
+*** Python
 
 #+begin_src emacs-lisp
   (use-package python-mode
@@ -763,7 +698,7 @@ LSP mode is single hand funcyion for making emacs ide.
 
 #+end_src
 
-***** C and C++
+*** C and C++
 #+begin_src emacs-lisp
 (add-hook 'c++-mode-hook 'lsp)
 (add-hook 'c-mode-hook 'lsp)
@@ -771,7 +706,40 @@ LSP mode is single hand funcyion for making emacs ide.
 
 #+end_src
 
-*** Company
+*** Rust
+#+begin_src emacs-lisp
+(use-package rustic
+  :ensure
+  :bind (:map rustic-mode-map
+              ("M-j" . lsp-ui-imenu)
+              ("M-?" . lsp-find-references)
+              ("C-c C-c l" . flycheck-list-errors)
+              ("C-c C-c a" . lsp-execute-code-action)
+              ("C-c C-c r" . lsp-rename)
+              ("C-c C-c q" . lsp-workspace-restart)
+              ("C-c C-c Q" . lsp-workspace-shutdown)
+              ("C-c C-c s" . lsp-rust-analyzer-status))
+  :config
+  ;; uncomment for less flashiness
+  ;; (setq lsp-eldoc-hook nil)
+  ;; (setq lsp-enable-symbol-highlighting nil)
+  ;; (setq lsp-signature-auto-activate nil)
+
+  ;; comment to disable rustfmt on save
+  (setq rustic-format-on-save t)
+  (add-hook 'rustic-mode-hook 'rk/rustic-mode-hook))
+
+(defun rk/rustic-mode-hook ()
+  ;; so that run C-c C-c C-r works without having to confirm, but don't try to
+  ;; save rust buffers that are not file visiting. Once
+  ;; https://github.com/brotzeit/rustic/issues/253 has been resolved this should
+  ;; no longer be necessary.
+  (when buffer-file-name
+    (setq-local buffer-save-without-query t)))
+
+#+end_src
+
+** Company
 
 #+begin_src emacs-lisp
 (use-package company
@@ -829,22 +797,8 @@ LSP mode is single hand funcyion for making emacs ide.
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
 (setq-default TeX-master nil)
-
 (add-hook 'LaTeX-mode-hook 'writeroom-mode)
-;;(add-hook 'LaTeX-mode-hook 'flyspell-mode)
 (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
-;;(add-hook 'LaTex-mode-hook 'display-line-numbers-mode 0)
-
-(setq TeX-PDF-mode t)
-
-;;(require 'tex)
-;;(TeX-global-PDF-mode t)
-
-;;(define-abbrev-table 'TeX-mode-abbrev-table (make-abbrev-table))
-;;(add-hook 'TeX-mode-hook (lambda ()
-;;  (setq abbrev-mode t)
-;;  (setq local-abbrev-table TeX-mode-abbrev-table)))
-
 #+end_src
     
 ** Zoom mode
@@ -876,30 +830,36 @@ Zoom mode is balanced zoom split layout
 
 This is my first configuration and use of famous org roam.
 #+begin_src emacs-lisp
-        (setq org-roam-directory (file-truename "~/org-roam"))
-        (use-package org-roam
-          :after org
-          :config
-          (org-roam-setup)
-          :custom
-          (org-roam-capture-templates
-           '(("d" "default" plain
-            "\n\n\n%?"
-            :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
-            :unnarrowed t)
-             ("b" "book notes" plain
-              "\n*Author* : %^{Author} \n*Title* : ${title} \n\n\n\n%?"
-              :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags: book")
-              :unnarrowed t)))
-          :bind (("C-c n f" . org-roam-node-find)
-                 ("C-c n r" . org-roam-node-random)		    
-                 (:map org-mode-map
-                       (("C-c n i" . org-roam-node-insert)
-                        ("C-c n o" . org-id-get-create)
-                        ("C-c n t" . org-roam-tag-add)
-                        ("C-c n a" . org-roam-alias-add)
-                        ("C-c n l" . org-roam-buffer-toggle)))))
-        (setq org-roam-completion-everywhere t)
+  (setq org-roam-directory (file-truename "~/org-roam"))
+  (use-package org-roam
+    :after org
+    :config
+    (org-roam-setup)
+    :custom
+    (org-roam-capture-templates
+     '(("d" "default" plain
+      "\n\n\n%?"
+      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+      :unnarrowed t)
+       ("b" "book notes" plain
+        "\n*Author* : %^{Author} \n*Title* : ${title} \n\n\n\n%?"
+        :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags: book")
+        :unnarrowed t)))
+    :bind (("C-c n f" . org-roam-node-find)
+           ("C-c n r" . org-roam-node-random)		    
+           (:map org-mode-map
+                 (("C-c n i" . org-roam-node-insert)
+                  ("C-c n o" . org-id-get-create)
+                  ("C-c n t" . org-roam-tag-add)
+                  ("C-c n a" . org-roam-alias-add)
+                  ("C-c n l" . org-roam-buffer-toggle)))))
+  (setq org-roam-completion-everywhere t)
+    (setq org-roam-capture-templates '(("d" "default" plain "%?"
+                                      :if-new
+                                      (file+head "${slug}.org"
+                                                 "#+title: ${title}\n#+date: %u\n#+lastmod: \n\n")
+                                      :immediate-finish t))
+        time-stamp-start "#\\+lastmod: [\t]*")
 #+end_src
 
 
