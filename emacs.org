@@ -1,8 +1,6 @@
-﻿---
-#+title: New configuration file
+﻿#+title: New configuration file
 #+PROPERTY: header-args:emacs-lisp :tangle /home/vijay/.emacs :mkdirp yes
 #+STARTUP: hideblocks
----
 
 *Welcome to RisEmacs, my personal config files ,*
 
@@ -904,5 +902,13 @@ This  is code i took from Systemcrafters =linkfdjk= ,
 
 (global-set-key [(meta shift up)]  'move-line-up)
 (global-set-key [(meta shift down)]  'move-line-down)
+#+end_src
+* Custom Function for buffer fonts
+#+begin_src emacs-lisp
+(defun my-buffer-face-mode-fixed ()
+   "Set font to a variable width (proportional) fonts in current buffer"
+   (interactive)
+   (setq buffer-face-mode-face '(:family "JetBrains Mono NL" :height 100 :width semi-condensed))
+   (buffer-face-mode))
 #+end_src
 
