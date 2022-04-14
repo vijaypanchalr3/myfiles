@@ -38,7 +38,6 @@
 
 
 #+end_src
-
 ** Package system
 
 This is code initializing melpa with updated elpa and org mode. which i copied from [[https://melpa.org/#/getting-started][melpa website]] and edited from *emacs from scratch* page.
@@ -65,7 +64,6 @@ This is code initializing melpa with updated elpa and org mode. which i copied f
 
 
 #+end_src
-
 * Setting variables
 
 #+begin_src emacs-lisp
@@ -101,49 +99,53 @@ This is code initializing melpa with updated elpa and org mode. which i copied f
   ;;       modus-themes-mode-line '3d) 
 
   ;; Load the theme files before enabling a theme (else you get an error).
-  (modus-themes-load-themes)
-  
+
   ;; Enable the theme of your preference:
 
        ;; Optionally add a key binding for the toggle between the themes:
-  (define-key global-map (kbd "<f5>") #'modus-themes-toggle)
+  ;;(modus-themes-load-themes)
+  ;;(define-key global-map (kbd "<f5>") #'modus-themes-toggle)
   (setq ring-bell-function 'ignore)
-  (use-package modus-themes)
+
+  ;;(use-package modus-themes)
 #+end_src
 * Custom dolists
 
 #+begin_src emacs-lisp
 
 
-          (dolist (mode '(org-mode-hook
-                               vterm-mode-hook
-                               eshell-mode-hook
-                               markdown-mode-hook
-                               helpful-mode-hook
-                               Custom-mode-hook
-                               LaTeX-mode-hook
-                               text-mode-hook
-                               inferior-python-mode-hook
-                               dired-mode-hook
-                               neotree-mode-hook
-                               image-mode-hook
-                               help-mode-hook))
-                (add-hook mode(lambda () (display-line-numbers-mode 0))))
-              (dolist (mode '(neotree-mode-hook
-                              dashboard-mode-hook
-                              image-mode-hook
-                              vterm-mode-hook
-                              help-mode-hook
-                              package-menu-mode-hook))
-                (add-hook mode(lambda () (hide-mode-line-mode 1))))
-              (dolist (mode '(org-mode-hook))
-                (add-hook mode(lambda () (org-num-mode 1))))
-              (setq-default line-spacing 4)
+  (dolist (mode '(org-mode-hook
+                       vterm-mode-hook
+                       eshell-mode-hook
+                       markdown-mode-hook
+                       helpful-mode-hook
+                       Custom-mode-hook
+                       LaTeX-mode-hook
+                       text-mode-hook
+                       inferior-python-mode-hook
+                       dired-mode-hook
+                       neotree-mode-hook
+                       image-mode-hook
+                       help-mode-hook
+                       calc-mode-hook
+                       calc-trail-mode-hook))
+        (add-hook mode(lambda () (display-line-numbers-mode 0))))
+      (dolist (mode '(neotree-mode-hook
+                      dashboard-mode-hook
+                      image-mode-hook
+                      vterm-mode-hook
+                      help-mode-hook
+                      package-menu-mode-hook
+                      calc-mode-hook
+                      calc-trail-mode-hook))
+        (add-hook mode(lambda () (hide-mode-line-mode 1))))
+      (dolist (mode '(org-mode-hook))
+        (add-hook mode(lambda () (org-num-mode 1))))
+      (setq-default line-spacing 4)
 
 
 
 #+end_src
-
 * Better UX experience
 ** Ivy
 
@@ -176,7 +178,6 @@ This is code initializing melpa with updated elpa and org mode. which i copied f
 
 
 #+end_src
-
 ** Which-key
 
 #+begin_src emacs-lisp
@@ -191,7 +192,6 @@ This is code initializing melpa with updated elpa and org mode. which i copied f
 
 
 #+end_src
-
 ** Counsel
 
 #+begin_src emacs-lisp
@@ -206,7 +206,6 @@ This is code initializing melpa with updated elpa and org mode. which i copied f
 
 
 #+end_src
-
 ** Helpful
 
 #+begin_src emacs-lisp
@@ -235,68 +234,67 @@ This is code initializing melpa with updated elpa and org mode. which i copied f
 
 
 #+end_src
-
 * Modeline
 
 #+begin_src emacs-lisp
-  
-(use-package all-the-icons)
-(use-package doom-modeline
-     :init (doom-modeline-mode 1)
-     :config
-     (setq doom-modeline-height 25)
-     (setq doom-modeline-buffer-modification-icon t)
-     (setq doom-modeline-hud nil)
-     (setq doom-modeline-bar-width 20)
-     (setq doom-modeline-modal-icon t)
-     (setq doom-modeline-window-width-limit fill-column)
-     (setq doom-modeline-buffer-file-name-style 'truncate-upto-project)
-     (setq doom-modeline-buffer-modification-icon nil)
-     (setq doom-modeline-continuous-word-count-modes '(markdown-mode gfm-mode org-mode)))
 
+    (use-package all-the-icons)
+    ;; (use-package doom-modeline
+    ;;   :init (doom-modeline-mode 1)
+    ;;   :config
+    ;;   (setq doom-modeline-height 25)
+    ;;   (setq doom-modeline-buffer-modification-icon t)
+    ;;   (setq doom-modeline-hud nil)
+    ;;   (setq doom-modeline-bar-width 20)
+    ;;   (setq doom-modeline-modal-icon t)
+    ;;   (setq doom-modeline-window-width-limit fill-column)
+    ;;   (setq doom-modeline-buffer-file-name-style 'truncate-upto-project)
+    ;;   (setq doom-modeline-buffer-modification-icon nil)
+    ;;   (setq doom-modeline-continuous-word-count-modes '(markdown-mode gfm-mode org-mode)))
 
+(use-package nano-modeline
+    :init (nano-modeline-mode 1))
+(setq no-mode-line t)
 #+end_src
-
 * Key-bindings 
 ** Basic kbds
 
 #+begin_src emacs-lisp
 
 
-    (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-    ;;vterm keybinds  
-    (global-set-key [f2] 'vterm-toggle)
-    (global-set-key [C-f2] 'vterm-toggle-cd)
-    (global-set-key (kbd "C-x <up>") 'windmove-up)
-    (global-set-key (kbd "C-x <down>") 'windmove-down)
-    (global-set-key (kbd "C-x <left>") 'windmove-left)
-    (global-set-key (kbd "C-x <right>") 'windmove-right)
-    (global-set-key (kbd "M-p") 'flyspell-correct-at-point)
-    (global-set-key (kbd "C-)") 'display-line-numbers-mode)
-    (global-set-key (kbd "C-(") 'hide-mode-line-mode)
-    ;; (global-unset-key (kbd "C-n"))
-    ;; (global-unset-key (kbd "C-p"))
-    ;; (global-unset-key (kbd "C-f"))
-    ;; (global-unset-key (kbd "C-b"))
-    ;; (global-unset-key (kbd "C-h"))
-    ;; (global-unset-key (kbd "C-j"))
-    ;; (global-unset-key (kbd "C-k"))
-    ;; (global-unset-key (kbd "C-l"))
-    ;; (global-set-key (kbd "C-n") 'electric-newline-and-maybe-indent)
-    ;; (global-set-key (kbd "C-f") 'kill-line)
-    ;; (global-set-key (kbd "C-h") 'backward-char)
-    ;; (global-set-key (kbd "C-l") 'forward-char)
-    ;; (global-set-key (kbd "C-j") 'next-line)
-    ;; (global-set-key (kbd "C-k") 'previous-line)
+  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+  ;;vterm keybinds  
+  (global-set-key [f2] 'vterm-toggle)
+  (global-set-key [C-f2] 'vterm-toggle-cd)
+  (global-set-key [f6] 'calc)
+  (global-set-key (kbd "C-x <up>") 'windmove-up)
+  (global-set-key (kbd "C-x <down>") 'windmove-down)
+  (global-set-key (kbd "C-x <left>") 'windmove-left)
+  (global-set-key (kbd "C-x <right>") 'windmove-right)
+  (global-set-key (kbd "M-p") 'flyspell-correct-at-point)
+  (global-set-key (kbd "C-)") 'display-line-numbers-mode)
+  (global-set-key (kbd "C-(") 'hide-mode-line-mode)
+  ;; (global-unset-key (kbd "C-n"))
+  ;; (global-unset-key (kbd "C-p"))
+  ;; (global-unset-key (kbd "C-f"))
+  ;; (global-unset-key (kbd "C-b"))
+  ;; (global-unset-key (kbd "C-h"))
+  ;; (global-unset-key (kbd "C-j"))
+  ;; (global-unset-key (kbd "C-k"))
+  ;; (global-unset-key (kbd "C-l"))
+  ;; (global-set-key (kbd "C-n") 'electric-newline-and-maybe-indent)
+  ;; (global-set-key (kbd "C-f") 'kill-line)
+  ;; (global-set-key (kbd "C-h") 'backward-char)
+  ;; (global-set-key (kbd "C-l") 'forward-char)
+  ;; (global-set-key (kbd "C-j") 'next-line)
+  ;; (global-set-key (kbd "C-k") 'previous-line)
 
 
 #+end_src
-
 * Org-mode
 
 Emacs Org mode is super Powerful and super customizable. this is small customization of emacs org mode.
 *Org Mode Links* : [[https://orgmode.org/][Homepage]], [[https://orgmode.org/manual/][Manual]]
-
 ** Basic customization for Org mode
 
 #+begin_src emacs-lisp
@@ -327,7 +325,6 @@ Emacs Org mode is super Powerful and super customizable. this is small customiza
 
 
 #+end_src
-
 ** Org-bullets
 
 #+begin_src emacs-lisp
@@ -356,7 +353,6 @@ Emacs Org mode is super Powerful and super customizable. this is small customiza
 #+end_src
 :custom
   (org-bullets-bullet-list '(" "" "" "" "" "" "" "))
-  
 ** Margin setting for Org mode
 
 
@@ -383,7 +379,6 @@ Emacs Org mode is super Powerful and super customizable. this is small customiza
 
 
 #+end_src
-
 ** Font setting for Org mode
  djk fk fkdjsfe abcdfghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ =Abcsfljfl= *dkfaj jkjkjkd* /fjkjskl/ /asdfhjhjhj/ 
 #+begin_src emacs-lisp
@@ -415,7 +410,6 @@ Emacs Org mode is super Powerful and super customizable. this is small customiza
 
 
 #+end_src
-
 ** Emacs-Org-Babel language support
 
 This is give way to use language in emacs org mode for execution.
@@ -432,7 +426,6 @@ This is give way to use language in emacs org mode for execution.
 
 
  #+end_src
-
 ** Tangle automation
 This block help me to tangle automatically everytime i save this file.d
 
@@ -451,7 +444,6 @@ This block help me to tangle automatically everytime i save this file.d
  #+end_src
 
  #+RESULTS:
-
 ** LaTeX Preview inside org
 
 Well, First you need *dvipng*  from package manager and also, *texlive-extra*. This will help to produce Latex png files.
@@ -469,7 +461,6 @@ Techniqly, i can use imagemagick and i always have that but i think that's too b
 ** Bullets-setting
 This all functionality copy pasted from this site > [[https://thibautbenjamin.github.io/emacs/org-icons]]
 I will make bullets iconful,
-
 *** Removing todo keywords
 #+begin_src emacs-lisp
 
@@ -492,7 +483,6 @@ I will make bullets iconful,
 
 
 #+end_src
-
 ** Source block customization
 #+begin_src emacs-lisp
 
@@ -505,7 +495,6 @@ I will make bullets iconful,
 
 
 #+end_src
-
 ** Olivetti mode
 #+begin_src emacs-lisp
 
@@ -558,7 +547,6 @@ I will make bullets iconful,
 
 
 #+end_src
-
 * Org-Roam
 
 This is my first configuration and use of famous org roam.
@@ -598,7 +586,6 @@ This is my first configuration and use of famous org roam.
 
 
 #+end_src
-
 * LSP
 LSP mode is single hand funcyion for making emacs ide.
 - [[https://emacs-lsp.github.io/lsp-mode/][Official website]]
@@ -606,23 +593,22 @@ LSP mode is single hand funcyion for making emacs ide.
 - [[https://github.com/microsoft/pyright][github page for *pyright* a python server]]
 - [[https://company-mode.github.io/][company-mode official site]]
 - latex is still outside of functionality
-
 ** LSP- configuration
 #+begin_src emacs-lisp
 
 
- (use-package lsp-mode
-   :commands (lsp lsp-deferred)
-   :init
-     (setq lsp-keymap-prefix "C-c l")  ;; Or 'C-l', 's-l'
-   :config
-     (lsp-enable-which-key-integration t))
+  (use-package lsp-mode
+    :commands (lsp lsp-deferred)
+    :init
+      (setq lsp-keymap-prefix "C-c l")  ;; Or 'C-l', 's-l'
+    :config
+      (lsp-enable-which-key-integration t))
+  (add-hook 'lsp-configure-hook (lambda ()
+                         (lsp-headerline-breadcrumb-mode -1)))
 
 
 #+end_src
-
 ** Language configuration
-
 *** CSS
 
 #+begin_src emacs-lisp
@@ -636,7 +622,6 @@ LSP mode is single hand funcyion for making emacs ide.
 
 
 #+end_src
-
 *** Python
 
 #+begin_src emacs-lisp
@@ -655,7 +640,6 @@ LSP mode is single hand funcyion for making emacs ide.
 
 
 #+end_src
-
 *** C and C++
 #+begin_src emacs-lisp
 
@@ -665,7 +649,6 @@ LSP mode is single hand funcyion for making emacs ide.
 
 
 #+end_src
-
 *** Rust
 #+begin_src emacs-lisp
 
@@ -700,7 +683,6 @@ LSP mode is single hand funcyion for making emacs ide.
 
 
 #+end_src
-
 ** Company
 
 #+begin_src emacs-lisp
@@ -753,7 +735,6 @@ LSP mode is single hand funcyion for making emacs ide.
 
 
 #+end_src
-
 * Terminal
 
 *vterm github page*:
@@ -790,7 +771,6 @@ I'm using vterm but i just congiguring Eshell
 
 
 #+end_src
-
 * splash screen
 #+begin_src emacs-lisp
 
@@ -849,7 +829,6 @@ I'm using vterm but i just congiguring Eshell
 
 
 #+end_src
-
 * Latex mode
 ** Basic
 
@@ -864,7 +843,6 @@ I'm using vterm but i just congiguring Eshell
 
 
 #+end_src
-   
 * MAN pages
 #+begin_src emacs-lisp
 
@@ -903,12 +881,3 @@ This  is code i took from Systemcrafters =linkfdjk= ,
 (global-set-key [(meta shift up)]  'move-line-up)
 (global-set-key [(meta shift down)]  'move-line-down)
 #+end_src
-* Custom Function for buffer fonts
-#+begin_src emacs-lisp
-(defun my-buffer-face-mode-fixed ()
-   "Set font to a variable width (proportional) fonts in current buffer"
-   (interactive)
-   (setq buffer-face-mode-face '(:family "JetBrains Mono NL" :height 100 :width semi-condensed))
-   (buffer-face-mode))
-#+end_src
-
