@@ -888,7 +888,7 @@ This  is code i took from Systemcrafters =linkfdjk= ,
 #+begin_src emacs-lisp
         (use-package dimmer
           :init (dimmer-mode 1)
-          :custom (dimmer-fraction 0.2))
+          :custom (dimmer-fraction 0.4))
         (setq window-divider-default-bottom-width 4
               window-divider-default-right-width 4)
 #+end_src
