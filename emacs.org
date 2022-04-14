@@ -15,8 +15,6 @@
 
 
 * General settings 
-
-This is my whole configuration file. spacemacs theme looks nice.
 ** Encoding system
 
 #+begin_src emacs-lisp
@@ -24,10 +22,8 @@ This is my whole configuration file. spacemacs theme looks nice.
 
   ;; disable CJK coding/encoding (Chinese/Japanese/Korean characters)
   (setq utf-translate-cjk-mode nil)
-
   (set-language-environment 'utf-8)
   (setq locale-coding-system 'utf-8)
-
   ;; set the default encoding system
   (prefer-coding-system 'utf-8)
   (setq default-file-name-coding-system 'utf-8)
@@ -39,11 +35,10 @@ This is my whole configuration file. spacemacs theme looks nice.
   (if (boundp buffer-file-coding-system)
       (setq buffer-file-coding-system 'utf-8)
     (setq default-buffer-file-coding-system 'utf-8))
-
   ;; Treat clipboard input as UTF-8 string first; compound text next, etc.
   (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
 
-  
+
 #+end_src
 
 ** Package system
@@ -52,202 +47,111 @@ This is code initializing melpa with updated elpa and org mode. which i copied f
 
 
 #+begin_src emacs-lisp
-(require 'package)
 
-(setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                         ("org" . "https://orgmode.org/elpa/")
-                         ("elpa" . "https://elpa.gnu.org/packages/")))
-;; Comment/uncomment this line to enable MELPA Stable if desired.  See `package-archive-priorities`
-;; and `package-pinned-packages`. Most users will not need or want to do this.
-;;(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
-(package-initialize)
-#+end_src
 
-This is also copied from *emacs from scratch*,
 
-#+begin_src emacs-lisp
+  (require 'package)
+  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                           ("org" . "https://orgmode.org/elpa/")
+                           ("elpa" . "https://elpa.gnu.org/packages/")))
+  ;; Comment/uncomment this line to enable MELPA Stable if desired.  See `package-archive-priorities`
+  ;; and `package-pinned-packages`. Most users will not need or want to do this.
+  ;;(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+  (package-initialize)
+  (unless package-archive-contents
+    (package-refresh-contents))
+  (require 'use-package)
+  (setq use-package-always-ensure t)
+  (setq inhibit-startup-message t)
 
-(unless package-archive-contents
-  (package-refresh-contents))
-(require 'use-package)
-(setq use-package-always-ensure t)
-(setq inhibit-startup-message t)
-
-#+end_src
-
-** Packages
-
-#+begin_src emacs-lisp
-#+end_src
-** Basic configuration
-
-This is My basic configuration with gruvbox theme and some UI effects of emacs. Not that much but it's  enough.
-
-*** Set variables
-
-#+begin_src emacs-lisp
-  ;; set transparency
-  ;;(set-frame-parameter (selected-frame) 'alpha '(90 90))
-  ;;(add-to-list 'default-frame-alist '(alpha 90 90))
-  (custom-set-variables
-   '(column-number-mode t)
-   '(custom-enabled-themes '(modus-vivendi))
-   '(custom-safe-themes
-   '("5d6cc3e22172f051d68c0c95d79f3dff0e800f2d107f6f6b9220ed5380285c50" "2420401709d448e5999b76005aece99fa3d27e17a6d2312b40636655f0efbc6f" "0d01e1e300fcafa34ba35d5cf0a21b3b23bc4053d388e352ae6a901994597ab1" "f7fed1aadf1967523c120c4c82ea48442a51ac65074ba544a5aefc5af490893b" "d6844d1e698d76ef048a53cefe713dbbe3af43a1362de81cdd3aefa3711eae0d" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "a0be7a38e2de974d1598cf247f607d5c1841dbcef1ccd97cded8bea95a7c7639" "846b3dc12d774794861d81d7d2dcdb9645f82423565bfb4dad01204fa322dbd5" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "e8df30cd7fb42e56a4efc585540a2e63b0c6eeb9f4dc053373e05d774332fc13" "f91395598d4cb3e2ae6a2db8527ceb83fed79dbaf007f435de3e91e5bda485fb" "246a9596178bb806c5f41e5b571546bb6e0f4bd41a9da0df5dfbca7ec6e2250c" "7eea50883f10e5c6ad6f81e153c640b3a288cd8dc1d26e4696f7d40f754cc703" default))
-   '(display-time-mode t)
-   '(electric-pair-mode t)
-   '(solaire-global-mode t)
-   '(font-use-system-font nil)
-   '(global-display-line-numbers-mode t)
-   '(menu-bar-mode nil)
-   '(org-fontify-done-headline nil)
-   '(org-fontify-todo-headline nil)
-   '(package-selected-packages
-     '(mixed-pitch writeroom-mode company-box lsp-mode visual-fill-column org-bullets helpful doom-modeline doom-themes magit))
-   '(scroll-bar-mode nil)
-   '(show-paren-mode t)
-   '(size-indication-mode t)
-   '(tool-bar-mode nil))
-#+end_src
-*** Custom dolists
-
-#+begin_src emacs-lisp
-        (dolist (mode '(org-mode-hook
-                         vterm-mode-hook
-                         eshell-mode-hook
-                         helpful-mode-hook
-                         Custom-mode-hook
-                         LaTeX-mode-hook
-                         inferior-python-mode-hook
-                         dired-mode-hook
-                         neotree-mode-hook
-                         image-mode-hook))
-          (add-hook mode(lambda () (display-line-numbers-mode 0))))
-        (dolist (mode '(neotree-mode-hook
-                        dashboard-mode-hook
-                        image-mode-hook))
-          (add-hook mode(lambda () (hide-mode-line-mode 1))))
-        (dolist (mode '(org-mode-hook))
-          (add-hook mode(lambda () (org-num-mode 1))))
-        (setq-default line-spacing 4)
-        ;;(use-package dired
-        ;;  :ensure nil
-        ;;  :bind (("C-x C-j" . dired-jump))
-        ;;  :custom ((dired-listing-switches "-agho --group-directories-first")))
-        ;;(use-package dired-single
-         ;; :commands (dired dired-jump))
-
-        ;;(use-package all-the-icons-dired
-         ;; :hook (dired-mode . all-the-icons-dired-mode))
-
-#+end_src
-
-*** Icons
-#+begin_src emacs-lisp
-(use-package all-the-icons)
-#+end_src
-
-*** Modeline
-
-#+begin_src emacs-lisp
-(use-package doom-modeline
-  :init (doom-modeline-mode 1)
-  :config
-  (setq doom-modeline-height 25)
-  (setq doom-modeline-buffer-modification-icon t)
-  (setq doom-modeline-window-width-limit fill-column)
-  (setq doom-modeline-buffer-file-name-style 'truncate-upto-project)
-  (setq doom-modeline-buffer-modification-icon nil)
-  (setq doom-modeline-continuous-word-count-modes '(markdown-mode gfm-mode org-mode)))
 
 
 #+end_src
 
-*** Rainbox indentation
+* Setting variables
 
 #+begin_src emacs-lisp
-(require 'rainbow-delimiters)
-(use-package rainbow-delimiters
-  :hook (prog-mode . rainbow-delimiters-mode))
+
+
+    ;; set transparency
+    ;;(set-frame-parameter (selected-frame) 'alpha '(90 90))
+    ;;(add-to-list 'default-frame-alist '(alpha 90 90))
+    (custom-set-variables
+     '(column-number-mode t)
+     ;;'(custom-enabled-themes '(tango))
+     ;;'(custom-safe-themes
+     ;; 
+     ;;)
+     '(display-time-mode t)
+     '(electric-pair-mode t)
+     '(solaire-global-mode t)
+     '(font-use-system-font nil)
+     '(global-display-line-numbers-mode t)
+     '(menu-bar-mode nil)
+     '(org-fontify-done-headline nil)
+     '(org-fontify-todo-headline nil)
+     '(package-selected-packages
+       '(mixed-pitch writeroom-mode company-box lsp-mode visual-fill-column org-bullets helpful doom-modeline doom-themes magit))
+     '(scroll-bar-mode nil)
+     '(show-paren-mode t)
+     '(size-indication-mode t)
+     '(tool-bar-mode nil)
+     '(save-place-mode t))
+    (set-face-attribute 'default nil :font "JetBrains Mono NL" :height 110)
+  ;; Your customisations here.  For example:
+  ;; (setq modus-themes-bold-constructs t
+  ;;       modus-themes-mode-line '3d) 
+
+  ;; Load the theme files before enabling a theme (else you get an error).
+  (modus-themes-load-themes)
+  
+  ;; Enable the theme of your preference:
+
+       ;; Optionally add a key binding for the toggle between the themes:
+  (define-key global-map (kbd "<f5>") #'modus-themes-toggle)
+  (setq ring-bell-function 'ignore)
+  (use-package modus-themes)
+#+end_src
+* Custom dolists
+
+#+begin_src emacs-lisp
+
+
+          (dolist (mode '(org-mode-hook
+                               vterm-mode-hook
+                               eshell-mode-hook
+                               markdown-mode-hook
+                               helpful-mode-hook
+                               Custom-mode-hook
+                               LaTeX-mode-hook
+                               text-mode-hook
+                               inferior-python-mode-hook
+                               dired-mode-hook
+                               neotree-mode-hook
+                               image-mode-hook
+                               help-mode-hook))
+                (add-hook mode(lambda () (display-line-numbers-mode 0))))
+              (dolist (mode '(neotree-mode-hook
+                              dashboard-mode-hook
+                              image-mode-hook
+                              vterm-mode-hook
+                              help-mode-hook
+                              package-menu-mode-hook))
+                (add-hook mode(lambda () (hide-mode-line-mode 1))))
+              (dolist (mode '(org-mode-hook))
+                (add-hook mode(lambda () (org-num-mode 1))))
+              (setq-default line-spacing 4)
+
+
+
 #+end_src
 
-*** splash screen
-#+begin_src emacs-lisp
-(require 'dashboard)
-(dashboard-setup-startup-hook)
-;; Or if you use use-package
-(use-package dashboard
-  :ensure t
-  :config
-  (dashboard-setup-startup-hook))
-
-#+end_src
+* Better UX experience
+** Ivy
 
 #+begin_src emacs-lisp
-;; Set the title
-;; Makes *scratch* empty.
-(setq initial-scratch-message "")
-
-;; Removes *scratch* from buffer after the mode has been set.
-(defun remove-scratch-buffer ()
-  (if (get-buffer "*scratch*")
-      (kill-buffer "*scratch*")))
-(add-hook 'after-change-major-mode-hook 'remove-scratch-buffer)
-;;(setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
-(setq dashboard-banner-logo-title nil)
-;; Set the banner
-(setq dashboard-startup-banner "~/.emacs.d/drawing2.png")
-;; (setq dashboard-startup-banner nil)
-;; Value can be
-;; 'official which displays the official emacs logo
-;; 'logo which displays an alternative emacs logo
-;; 1, 2 or 3 which displays one of the text banners
-;; "path/to/your/image.gif", "path/to/your/image.png" or "path/to/your/text.txt" which displays whatever gif/image/text you would prefer
-
-;; Content is not centered by default. To center, set
-(setq dashboard-center-content t)
-
-;; To disable shortcut "jump" indicators for each section, set
-(setq dashboard-show-shortcuts t)
-(setq dashboard-items '((recents  . 15)
-                        (bookmarks . 10)))
-(setq dashboard-set-heading-icons t)
-(setq dashboard-set-file-icons t)
-;;(dashboard-modify-heading-icons '((recents . "file-text")
-;;                                  (bookmarks . "book")))
-(setq dashboard-set-navigator t)
-(setq dashboard-set-footer t)
-
-#+end_src
-** Key-bindings 
-*** Basic kbds
-
-#+begin_src emacs-lisp
-(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-#+end_src
-
-#+begin_src emacs-lisp
-  ;;vterm keybinds
-
-  (global-set-key [f2] 'vterm-toggle)
-  (global-set-key [C-f2] 'vterm-toggle-cd)
-
-  (global-set-key (kbd "C-x <up>") 'windmove-up)
-  (global-set-key (kbd "C-x <down>") 'windmove-down)
-  (global-set-key (kbd "C-x <left>") 'windmove-left)
-  (global-set-key (kbd "C-x <right>") 'windmove-right)
-#+end_src
 
 
-This is for my motion
-
-** Better UX experience
-
-This is makes Some points easy.
-
-*** Ivy
-
-#+begin_src emacs-lisp
 (use-package ivy
   :diminish
   :bind (:map ivy-minibuffer-map
@@ -264,53 +168,52 @@ This is makes Some points easy.
   :config
   (ivy-mode 1))
 (ivy-explorer-mode 1)
-#+end_src
-
-**** Prescient in Ivy for shorting recomndation for better ux
-This functionality is from =Prescient.el=,
-#+begin_src emacs-lisp
- (use-package ivy-prescient
+(use-package ivy-prescient
     :after counsel
     :config
     (ivy-prescient-mode 1))
+(use-package ivy-rich
+  :init
+  (ivy-rich-mode 1))
+
+
 #+end_src
 
-
-
-*** Which-key
+** Which-key
 
 #+begin_src emacs-lisp
+
+
 (use-package which-key
   :defer 0
   :diminish which-key-mode
   :config
   (which-key-mode)
   (setq which-key-idle-delay 1))
+
+
 #+end_src
 
-*** Counsel
+** Counsel
 
 #+begin_src emacs-lisp
+
+
 (use-package counsel
   :bind (("C-M-j" . 'counsel-switch-buffer)
          :map minibuffer-local-map
          ("C-r" . 'counsel-minibuffer-history))
   :config
   (counsel-mode 1))
-#+end_src
 
-*** Ivy-rich
-
-#+begin_src emacs-lisp
-(use-package ivy-rich
-  :init
-  (ivy-rich-mode 1))
 
 #+end_src
 
-*** Helpful
+** Helpful
 
 #+begin_src emacs-lisp
+
+
 (use-package helpful
   :commands (helpful-callable helpful-variable helpful-command helpful-key)
   :custom
@@ -322,116 +225,116 @@ This functionality is from =Prescient.el=,
   ([remap describe-variable] . counsel-describe-variable)
   ([remap describe-key] . helpful-key))
 
+
 #+end_src
-
-** Structural Templates
-
-This is structural for creating source blocks in org mode, this list will give idea... 
-
-- py -- src python 
-- el -- src emacs-lisp 
-- sh -- src shell
-- a -- export ascii 
-- c -- center
-- C -- comment) 
-- e -- example 
-- E -- export 
-- h -- export html
-- l -- export latex 
-- q -- quote
-- s -- src
-- v -- verse
-
-
- #+begin_src emacs-lisp
-      (with-eval-after-load 'org
-        ;; This is needed as of Org 9.2
-        (require 'org-tempo)
-
-        (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
-        (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
-        (add-to-list 'org-structure-template-alist '("py" . "src python"))
-        (add-to-list 'org-structure-template-alist '("yaml" . "src yaml"))
-        (add-to-list 'org-structure-template-alist '("cpp" . "src c++")))
-#+end_src
-
-#+RESULTS:
-
-** Terminal
-
-*** Term-mode
-
-*vterm github page*:
-[[https://github.com/akermu/emacs-libvterm]]
-
-*Eshell Official page*:
-[[https://www.gnu.org/software/emacs/manual/html_mono/eshell.html]]
-
-I'm using vterm but i just congiguring Eshell
+** Rainbox indentation
 
 #+begin_src emacs-lisp
-(defun efs/configure-eshell ()
-  ;; Save command history when commands are entered
-  (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
 
-  ;; Truncate buffer for performance
-  (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer)
-  (setq eshell-history-size         10000
-        eshell-buffer-maximum-lines 10000
-        eshell-hist-ignoredups t
-        eshell-scroll-to-bottom-on-input t))
 
-(use-package eshell-git-prompt
-  :after eshell)
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
 
-(use-package eshell
-  :hook (eshell-first-time-mode . efs/configure-eshell)
-  :config
 
-  (with-eval-after-load 'esh-opt
-    (setq eshell-destroy-buffer-when-process-dies t)
-    (setq eshell-visual-commands '("htop" "zsh" "vim")))
-
-  (eshell-git-prompt-use-theme 'robbyrussell))
 #+end_src
 
+* Modeline
+
 #+begin_src emacs-lisp
-(use-package vterm
-    :ensure t)
+  
+(use-package all-the-icons)
+(use-package doom-modeline
+     :init (doom-modeline-mode 1)
+     :config
+     (setq doom-modeline-height 25)
+     (setq doom-modeline-buffer-modification-icon t)
+     (setq doom-modeline-hud nil)
+     (setq doom-modeline-bar-width 20)
+     (setq doom-modeline-modal-icon t)
+     (setq doom-modeline-window-width-limit fill-column)
+     (setq doom-modeline-buffer-file-name-style 'truncate-upto-project)
+     (setq doom-modeline-buffer-modification-icon nil)
+     (setq doom-modeline-continuous-word-count-modes '(markdown-mode gfm-mode org-mode)))
+
+
+#+end_src
+
+* Key-bindings 
+** Basic kbds
+
+#+begin_src emacs-lisp
+
+
+    (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+    ;;vterm keybinds  
+    (global-set-key [f2] 'vterm-toggle)
+    (global-set-key [C-f2] 'vterm-toggle-cd)
+    (global-set-key (kbd "C-x <up>") 'windmove-up)
+    (global-set-key (kbd "C-x <down>") 'windmove-down)
+    (global-set-key (kbd "C-x <left>") 'windmove-left)
+    (global-set-key (kbd "C-x <right>") 'windmove-right)
+    (global-set-key (kbd "M-p") 'flyspell-correct-at-point)
+    (global-set-key (kbd "C-)") 'display-line-numbers-mode)
+    (global-set-key (kbd "C-(") 'hide-mode-line-mode)
+    ;; (global-unset-key (kbd "C-n"))
+    ;; (global-unset-key (kbd "C-p"))
+    ;; (global-unset-key (kbd "C-f"))
+    ;; (global-unset-key (kbd "C-b"))
+    ;; (global-unset-key (kbd "C-h"))
+    ;; (global-unset-key (kbd "C-j"))
+    ;; (global-unset-key (kbd "C-k"))
+    ;; (global-unset-key (kbd "C-l"))
+    ;; (global-set-key (kbd "C-n") 'electric-newline-and-maybe-indent)
+    ;; (global-set-key (kbd "C-f") 'kill-line)
+    ;; (global-set-key (kbd "C-h") 'backward-char)
+    ;; (global-set-key (kbd "C-l") 'forward-char)
+    ;; (global-set-key (kbd "C-j") 'next-line)
+    ;; (global-set-key (kbd "C-k") 'previous-line)
+
+
 #+end_src
 
 * Org-mode
 
 Emacs Org mode is super Powerful and super customizable. this is small customization of emacs org mode.
-
-*Org Mode Links* : [[https://orgmode.org/][Homepage]], [[https://orgmode.org/manual/][Manual]] 
+*Org Mode Links* : [[https://orgmode.org/][Homepage]], [[https://orgmode.org/manual/][Manual]]
 
 ** Basic customization for Org mode
 
 #+begin_src emacs-lisp
+
   (use-package org
     :config
     (setq org-ellipsis " "
-          org-hide-emphasis-markers t))
-  ;; (setq-default line-spacing 0)
+            org-hide-emphasis-markers t))
+  (add-hook 'org-mode-hook 'org-overview)
+    ;; (setq-default line-spacing 0)
   (provide 'emacs-orgmode-config)
   (setq org-log-done nil)
+  (setq org-adapt-indentation nil)
+  ;;(setq org-startup-truncated t)
   (setq global-page-break-line-mode t)
   ;; (setq header-line-format " ")
+  (customize-set-variable 'org-blank-before-new-entry 
+                        '((heading . nil)
+                          (plain-list-item . nil)))
+  (setq org-cycle-separator-lines 1)
   (setq backup-directory-alist `(("." . "~/.saves")))
   ;; (setq make-backup-files nil)
-  (setq org-startup-truncated t)
   (setq org-html-coding-system 'utf-8-unix)
   (eval-after-load "org"
     '(require 'ox-gfm nil t))
   (setq org-html-table-default-attributes
         '(:border "0" :cellspacing "0" :cellpadding "6" :rules "none" :frame "none"))
 
+
 #+end_src
 
-*Org bullet lists for configure different level of headings. Also, i set list icon to dot in second block*
+** Org-bullets
 
 #+begin_src emacs-lisp
+
+
   (use-package org-bullets
     :after org
     :hook (org-mode . org-bullets-mode))
@@ -441,76 +344,77 @@ Emacs Org mode is super Powerful and super customizable. this is small customiza
   (font-lock-add-keywords 'org-mode
                             '(("^ *\\([-]\\) "
                                (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) " "))))))
+   ;; (dolist (face '((org-level-1 . 1.2)
+   ;;                 (org-level-2 . 1.2)
+   ;;                 (org-level-3 . 1.2)
+   ;;                 (org-level-4 . 1.2)
+   ;;                 (org-level-5 . 1.2)
+   ;;                 (org-level-6 . 1.2)
+   ;;                 (org-level-7 . 1.0)
+   ;;                 (org-level-8 . 1.0)))
+   ;;   (set-face-attribute (car face) nil :weight 'bold :height (cdr face)))
+
 
 #+end_src
-  :custom
+:custom
   (org-bullets-bullet-list '(" "" "" "" "" "" "" "))
-** Heading sizes
-
-#+begin_src emacs-lisp
-  ;; (dolist (face '((org-level-1 . 1.3)
-  ;;                 (org-level-2 . 1.2)
-  ;;                 (org-level-3 . 1.1)
-  ;;                 (org-level-4 . 1.1)
-  ;;                 (org-level-5 . 1.1)
-  ;;                 (org-level-6 . 1.0)
-  ;;                 (org-level-7 . 1.0)
-  ;;                 (org-level-8 . 1.0)))
-  ;;   (set-face-attribute (car face) nil :weight 'bold :height (cdr face)))
-
-
-#+end_src
-
+  
 ** Margin setting for Org mode
 
 
 #+begin_src emacs-lisp
-        (defun efs/org-mode-visual-fill ()
-          (setq visual-fill-column-width 100
-                visual-fill-column-center-text t)
-          (visual-fill-column-mode 1)
-          (visual-line-mode 1)
-          (variable-pitch-mode 1)
-          ;;(writeroom-mode 1)
-          ;;(electric-pair-mode 0)
-          (org-indent-mode 1)
-          (hide-mode-line-mode 1))
 
-        (use-package visual-fill-column
-          :hook '((org-mode . efs/org-mode-visual-fill)))
-          ;; :hook '((text-mode . efs/org-mode-visual-fill))
-        (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+
+  (defun efs/org-mode-visual-fill ()
+    (setq visual-fill-column-width 100
+	  visual-fill-column-center-text t)
+    (visual-fill-column-mode 1)
+    (visual-line-mode 1)
+    (variable-pitch-mode 1))
+    ;;(writeroom-mode 1)
+    ;;(electric-pair-mode 0)
+    ;;(org-indent-mode 1)
+
+  (use-package visual-fill-column
+    :hook '((org-mode . efs/org-mode-visual-fill)))
+  (add-hook 'markdown-mode-hook 'efs/org-mode-visual-fill)
+  (add-hook 'text-mode-hook 'efs/org-mode-visual-fill)
+  (add-hook 'org-mode-hook 'org-indent-mode)
+  ;; :hook '((text-mode . efs/org-mode-visual-fill))
+  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+
 
 #+end_src
 
 ** Font setting for Org mode
-
+ djk fk fkdjsfe abcdfghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ =Abcsfljfl= *dkfaj jkjkjkd* /fjkjskl/ /asdfhjhjhj/ 
 #+begin_src emacs-lisp
-   (use-package mixed-pitch
-     :hook
-     ;; If you want it in all text modes:
-     (text-mode . mixed-pitch-mode)
-     :config
-     ;;(set-face-attribute 'default nil :font "JetBrains Mono NL" :height 105)
-     (set-face-attribute 'fixed-pitch nil :font "JetBrains Mono NL" :height 110)
-     (set-face-attribute 'variable-pitch nil :font "Times New Roman:style=Regular" :height 150))
+
+  (use-package mixed-pitch
+    :hook
+    ;; If you want it in all text modes:
+    (text-mode . mixed-pitch-mode)
+    :config
+    (set-face-attribute 'fixed-pitch nil :font "JetBrains Mono NL" :height 110)
+    (set-face-attribute 'variable-pitch nil :font "Mali" :height 140))
   (custom-theme-set-faces
-     'user
-     '(org-block ((t (:inherit fixed-pitch))))
-     '(org-code ((t (:inherit (shadow fixed-pitch)))))
-     '(org-document-title ((t (:height 140 :weight bold))))
-     '(org-tag ((t (:height 100 :weight thin))))
-     '(org-special-keyword ((t (:height 100))))
-     '(org-document-info ((t (:height 100 :weight thin))))
-     '(org-document-info-keyword ((t (:height 100 :weight thin))))
-     '(org-property-value ((t (:height 100 :weight thin))))
-     '(org-meta-line ((t (:height 100 :weight thin))))
-     '(org-verbatim ((t (:height 100 :weight thin))))
-     '(org-block-begin-line ((t (:height 100 :weight thin))))
-     '(org-block-end-line ((t (:height 100 :weight thin))))
-     '(org-drawer ((t (:height 100 :weight thin))))
-     ;; '(org-date ((t (:height 100 :weight thin :foreground "grey"))))
-     '(org-link ((t (:underline t)))))
+       'user
+       '(org-block ((t (:inherit fixed-pitch))))
+       '(org-code ((t (:inherit (shadow fixed-pitch)))))
+       '(org-document-title ((t (:height 140 :weight bold))))
+       '(org-tag ((t (:height 100))))
+       '(org-special-keyword ((t (:height 100))))
+       '(org-document-info ((t (:height 100))))
+       '(org-document-info-keyword ((t (:height 100))))
+       '(org-property-value ((t (:height 100))))
+       '(org-meta-line ((t (:height 100))))
+       '(org-verbatim ((t (:inherit fixed-pitch))))
+       '(org-block-begin-line ((t (:height 100))))
+       '(org-block-end-line ((t (:height 100))))
+       '(org-drawer ((t (:height 100))))
+       ;;'(org-date ((t (:inherit variable-pitch)))
+       '(org-link ((t (:underline t)))))
+
 
 #+end_src
 
@@ -519,12 +423,15 @@ Emacs Org mode is super Powerful and super customizable. this is small customiza
 This is give way to use language in emacs org mode for execution.
 
  #+begin_src emacs-lisp
+
+
    (setq org-confirm-babel-evaluate nil)
    (setq org-babel-python-command "python3")
    (org-babel-do-load-languages
-     'org-babel-load-languages
-     '((emacs-lisp . t)
-       (python . t)))
+    'org-babel-load-languages
+    '((emacs-lisp . t)
+      (python . t)))
+
 
  #+end_src
 
@@ -532,19 +439,21 @@ This is give way to use language in emacs org mode for execution.
 This block help me to tangle automatically everytime i save this file.d
 
  #+begin_src emacs-lisp
+
+
 (defun efs/org-babel-tangle-config ()
   (when (string-equal (buffer-file-name)
                       (expand-file-name "/home/vijay/myfiles/emacs.org"))
     ;; Dynamic scoping to the rescue
     (let ((org-confirm-babel-evaluate nil))
       (org-babel-tangle))))
-
 (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'efs/org-babel-tangle-config)))
+
 
  #+end_src
 
  #+RESULTS:
- 
+
 ** LaTeX Preview inside org
 
 Well, First you need *dvipng*  from package manager and also, *texlive-extra*. This will help to produce Latex png files.
@@ -552,26 +461,20 @@ Well, First you need *dvipng*  from package manager and also, *texlive-extra*. T
 Techniqly, i can use imagemagick and i always have that but i think that's too big for such task.
 
 #+begin_src emacs-lisp
+
+
 (setq org-latex-create-formula-image-program 'dvipng)
 (plist-put org-format-latex-options :scale 2)
+
+
 #+end_src
 ** Bullets-setting
 This all functionality copy pasted from this site > [[https://thibautbenjamin.github.io/emacs/org-icons]]
 I will make bullets iconful,
 
-*** org-superstar
-
+*** Removing todo keywords
 #+begin_src emacs-lisp
-;;here i will setting org-superstar
 
-
-
-
-
-#+end_src
-
-**** Removing todo keywords
-#+begin_src emacs-lisp
   (setq org-todo-keywords
         '(
           (sequence "IDEA(i)" "TODO(t)" "STARTED(s)" "NEXT(n)" "WAITING(w)" "|" "DONE(d)")
@@ -585,251 +488,85 @@ I will make bullets iconful,
           ("CANCELED" . (:foreground "LimeGreen" :weight bold))
           ("DELEGATED" . (:foreground "LimeGreen" :weight bold))
           ("SOMEDAY" . (:foreground "LimeGreen" :weight bold))))
-
-
   (setq org-fast-tag-selection-single-key t)
   (setq org-use-fast-todo-selection t)
   (setq org-reverse-note-order t)
 
-  ;; (setq org-capture-templates
-  ;;       '(("t" "Todo" entry (file+headline "~/org/mygtd.org" "Tasks")
-  ;;          "* TODO %?\nAdded: %U\n" :prepend t :kill-buffer t)
-  ;;         ("i" "Idea" entry (file+headline "~/org/mygtd.org" "Someday/Maybe")
-  ;;          "* IDEA %?\nAdded: %U\n" :prepend t :kill-buffer t)
-  ;;         )
-  ;;       )
 
 #+end_src
-*** org-pretty-table
-#+begin_src emacs-lisp
-;;(use-package org-pretty-table
-;;  :load-path "lisp/org-pretty-table/"
-;;  :ensure nil
-;;  :hook (org-mode . org-pretty-table-mode))
-#+end_src
-** Some ideas 
 
-- Check This webiste for imformation about latex and that stuff https://lucidmanager.org/productivity/ricing-org-mode/
-- [X]  Also check This bullets 
-     (setq org-bullets-bullet-list '("☯" "○" "✸" "✿" "~"))
-
-
-
-This is not it. Org mode is much more
 ** Source block customization
 #+begin_src emacs-lisp
+
   ;; (org-block-begin-line
   ;;  ((t (:underline "#A7A6AA" :foreground "#008ED1" :background "#EAEAFF"))))
   ;; (org-block-background
   ;;  ((t (:background "#FFFFEA"))))
   ;; (org-block-end-line
   ;;  ((nil )))
+
+
 #+end_src
-(:overline "#A7A6AA" :foreground "#008ED1" :background "#EAEAFF")
+
 ** Olivetti mode
 #+begin_src emacs-lisp
-  ;; Distraction-free screen
-  (use-package olivetti
-    :init
-    (setq olivetti-body-width .67)
-    :config
-    (defun distraction-free ()
-      "Distraction-free writing environment"
-      (interactive)
-      (if (equal olivetti-mode nil)
-          (progn
-            (window-configuration-to-register 1)
-            (delete-other-windows)
-            (text-scale-increase 2)
-            (olivetti-mode t))
-        (progn
-          (jump-to-register 1)
-          (olivetti-mode 0)
-          (text-scale-decrease 2))))
-    :bind
-    (("<f9>" . distraction-free)))
-#+end_src
-* LSP
-LSP mode is single hand funcyion for making emacs ide.
-- [[https://emacs-lsp.github.io/lsp-mode/][Official website]]
-- [[https://clangd.llvm.org/][c++ server clangd]]
-- [[https://github.com/microsoft/pyright][github page for *pyright* a python server]]
-- [[https://company-mode.github.io/][company-mode official site]]
-- latex is still outside of functionality
 
-** LSP- configuration
-#+begin_src emacs-lisp
-(use-package lsp-mode
-  :commands (lsp lsp-deferred)
-  :init
-  (setq lsp-keymap-prefix "C-c l")  ;; Or 'C-l', 's-l'
-  :config
-  (lsp-enable-which-key-integration t))
-#+end_src
-
-** Language configuration
-
-*** CSS
-
-#+begin_src emacs-lisp
-(use-package css-mode
-  :mode "\\.css\\'"
-  :hook (css-mode . lsp-deferred)
-  :config
-  (setq css-indent-level 4))
-
-#+end_src
-
-*** Python
-
-#+begin_src emacs-lisp
-  (use-package python-mode
-    :ensure nil
-    :hook (python-mode . lsp-deferred))
-
-  (setq python-shell-interpreter "python3.9")
-  (setq python-shell-interpreter-args "-i")
-  (use-package lsp-pyright
-    :ensure t
-    :hook (python-mode . (lambda ()
-                            (require 'lsp-pyright)
-                            (lsp))))  ; or lsp-deferred
+    ;; Distraction-free screen
+    (use-package olivetti
+      :init
+      (setq olivetti-body-width .67)
+      :config
+      (defun distraction-free ()
+        "Distraction-free writing environment"
+        (interactive)
+          (if (equal olivetti-mode nil)
+              (progn
+                (window-configuration-to-register 1)
+                (delete-other-windows)
+                (text-scale-increase 2)
+                (olivetti-mode t)
+                (hide-mode-line-mode t)
+                (flyspell-mode t))
+            (progn
+              (jump-to-register 1)
+              (olivetti-mode 0)
+              (text-scale-decrease 2))))
+        :bind
+        (("<f9>" . distraction-free)))
 
 
 #+end_src
-
-*** C and C++
+* Markdown-mode
 #+begin_src emacs-lisp
-(add-hook 'c++-mode-hook 'lsp)
-(add-hook 'c-mode-hook 'lsp)
-;;(add-hook 'objc-mode-hook 'irony-mode)
+
+
+(add-hook 'markdown-mode-hook 'markdown-toggle-markup-hiding)
+
 
 #+end_src
+* Structural Templates
 
-*** Rust
-#+begin_src emacs-lisp
-(use-package rustic
-  :ensure
-  :bind (:map rustic-mode-map
-              ("M-j" . lsp-ui-imenu)
-              ("M-?" . lsp-find-references)
-              ("C-c C-c l" . flycheck-list-errors)
-              ("C-c C-c a" . lsp-execute-code-action)
-              ("C-c C-c r" . lsp-rename)
-              ("C-c C-c q" . lsp-workspace-restart)
-              ("C-c C-c Q" . lsp-workspace-shutdown)
-              ("C-c C-c s" . lsp-rust-analyzer-status))
-  :config
-  ;; uncomment for less flashiness
-  ;; (setq lsp-eldoc-hook nil)
-  ;; (setq lsp-enable-symbol-highlighting nil)
-  ;; (setq lsp-signature-auto-activate nil)
+ #+begin_src emacs-lisp
 
-  ;; comment to disable rustfmt on save
-  (setq rustic-format-on-save t)
-  (add-hook 'rustic-mode-hook 'rk/rustic-mode-hook))
+   (with-eval-after-load 'org
+     ;; This is needed as of Org 9.2
+     (require 'org-tempo)
 
-(defun rk/rustic-mode-hook ()
-  ;; so that run C-c C-c C-r works without having to confirm, but don't try to
-  ;; save rust buffers that are not file visiting. Once
-  ;; https://github.com/brotzeit/rustic/issues/253 has been resolved this should
-  ;; no longer be necessary.
-  (when buffer-file-name
-    (setq-local buffer-save-without-query t)))
+     (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
+     (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+     (add-to-list 'org-structure-template-alist '("py" . "src python"))
+     (add-to-list 'org-structure-template-alist '("yaml" . "src yaml"))
+     (add-to-list 'org-structure-template-alist '("cpp" . "src c++")))
 
-#+end_src
 
-** Company
-
-#+begin_src emacs-lisp
-(use-package company
-  :after lsp-mode
-  :hook '((lsp-mode . company-mode)
-	  (prog-mode . company-mode))
-  :bind (:map company-active-map
-         ("<tab>" . company-complete-selection))
-        (:map lsp-mode-map
-         ("<tab>" . company-indent-or-complete-common))
-  :custom
-  (company-minimum-prefix-length 1)
-  (company-idle-delay 0.0))
-(use-package company-box
-  :hook (company-mode . company-box-mode))
-(setq company-box-icons-alist 'company-box-icons-all-the-icons
-      company-box-icons-all-the-icons
-      (let ((all-the-icons-scale-factor 1)
-            (all-the-icons-default-adjust 0))
-        `((Unknown       . ,(all-the-icons-faicon "question" :face 'all-the-icons-purple)) ;;question-circle is also good
-          (Text          . ,(all-the-icons-faicon "file-text-o" :face 'all-the-icons-green))
-          (Method        . ,(all-the-icons-faicon "cube" :face 'all-the-icons-dcyan))
-          (Function      . ,(all-the-icons-faicon "cube" :face 'all-the-icons-dcyan))
-          (Constructor   . ,(all-the-icons-faicon "cube" :face 'all-the-icons-dcyan))
-          (Field         . ,(all-the-icons-faicon "tag" :face 'all-the-icons-red))
-          (Variable      . ,(all-the-icons-faicon "tag" :face 'all-the-icons-dpurple))
-          (Class         . ,(all-the-icons-faicon "cog" :face 'all-the-icons-red))
-          (Interface     . ,(all-the-icons-faicon "cogs" :face 'all-the-icons-red))
-          (Module        . ,(all-the-icons-alltheicon "less" :face 'all-the-icons-red))
-          (Property      . ,(all-the-icons-faicon "wrench" :face 'all-the-icons-red))
-          (Unit          . ,(all-the-icons-faicon "tag" :face 'all-the-icons-red))
-          (Value         . ,(all-the-icons-faicon "tag" :face 'all-the-icons-red))
-          (Enum          . ,(all-the-icons-faicon "file-text-o" :face 'all-the-icons-red))
-          (Keyword       . ,(all-the-icons-material "format_align_center" :face 'all-the-icons-red :v-adjust -0.15))
-          (Snippet       . ,(all-the-icons-material "content_paste" :face 'all-the-icons-red))
-          (Color         . ,(all-the-icons-material "palette" :face 'all-the-icons-red))
-          (File          . ,(all-the-icons-faicon "file" :face 'all-the-icons-red))
-          (Reference     . ,(all-the-icons-faicon "tag" :face 'all-the-icons-red))
-          (Folder        . ,(all-the-icons-faicon "folder" :face 'all-the-icons-red))
-          (EnumMember    . ,(all-the-icons-faicon "tag" :face 'all-the-icons-red))
-          (Constant      . ,(all-the-icons-faicon "tag" :face 'all-the-icons-red))
-          (Struct        . ,(all-the-icons-faicon "cog" :face 'all-the-icons-red))
-          (Event         . ,(all-the-icons-faicon "bolt" :face 'all-the-icons-red))
-          (Operator      . ,(all-the-icons-faicon "tag" :face 'all-the-icons-red))
-          (TypeParameter . ,(all-the-icons-faicon "cog" :face 'all-the-icons-red))
-          (Template      . ,(all-the-icons-faicon "bookmark" :face 'all-the-icons-dgreen)))))
-#+end_src
-
-* Other 
-** Latex mode
-
-*** Basic
-
-#+begin_src emacs-lisp
-(setq TeX-auto-save t)
-(setq TeX-parse-self t)
-(setq-default TeX-master nil)
-(add-hook 'LaTeX-mode-hook 'writeroom-mode)
-(add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
-#+end_src
-    
-** Zoom mode
-Zoom mode is balanced zoom split layout
-*Official page* = [[https://github.com/cyrus-and/zoom]]
-#+begin_src emacs-lisp
-  ;; (custom-set-variables
-  ;;  '(zoom-mode t))
-  ;; (defun size-callback ()
-  ;;   (cond ((> (frame-pixel-width) 1280) '(90 . 0.90))
-  ;;         (t                            '(0.5 . 0.5))))
-
-  ;; (custom-set-variables
-  ;;  '(zoom-size 'size-callback))
-  ;; (custom-set-variables
-  ;;  '(zoom-ignored-major-modes '(dired-mode markdown-mode))
-  ;;  '(zoom-ignored-buffer-names '("zoom.el" "init.el"))
-  ;;  '(zoom-ignored-buffer-name-regexps '("^*calc"))
-  ;;  '(zoom-ignore-predicates '((lambda () (> (count-lines (point-min) (point-max)) 20)))))
-#+end_src
-** NeoTree
-
-#+begin_src emacs-lisp
-(global-set-key [f8] 'neotree-toggle)
-(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
 #+end_src
 
 * Org-Roam
 
 This is my first configuration and use of famous org roam.
 #+begin_src emacs-lisp
+
+
   (setq org-roam-directory (file-truename "~/org-roam"))
   (use-package org-roam
     :after org
@@ -838,9 +575,9 @@ This is my first configuration and use of famous org roam.
     :custom
     (org-roam-capture-templates
      '(("d" "default" plain
-      "\n\n\n%?"
-      :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
-      :unnarrowed t)
+        "\n\n\n%?"
+        :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+        :unnarrowed t)
        ("b" "book notes" plain
         "\n*Author* : %^{Author} \n*Title* : ${title} \n\n\n\n%?"
         :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags: book")
@@ -854,14 +591,318 @@ This is my first configuration and use of famous org roam.
                   ("C-c n a" . org-roam-alias-add)
                   ("C-c n l" . org-roam-buffer-toggle)))))
   (setq org-roam-completion-everywhere t)
-    (setq org-roam-capture-templates '(("d" "default" plain "%?"
+  (setq org-roam-capture-templates '(("d" "default" plain "%?"
                                       :if-new
                                       (file+head "${slug}.org"
                                                  "#+title: ${title}\n#+date: %u\n#+lastmod: \n\n")
                                       :immediate-finish t))
         time-stamp-start "#\\+lastmod: [\t]*")
+
+
 #+end_src
 
+* LSP
+LSP mode is single hand funcyion for making emacs ide.
+- [[https://emacs-lsp.github.io/lsp-mode/][Official website]]
+- [[https://clangd.llvm.org/][c++ server clangd]]
+- [[https://github.com/microsoft/pyright][github page for *pyright* a python server]]
+- [[https://company-mode.github.io/][company-mode official site]]
+- latex is still outside of functionality
 
-** Hacks from systemcrafters
-This  is code i took from Systemcrafters =link= ,
+** LSP- configuration
+#+begin_src emacs-lisp
+
+
+ (use-package lsp-mode
+   :commands (lsp lsp-deferred)
+   :init
+     (setq lsp-keymap-prefix "C-c l")  ;; Or 'C-l', 's-l'
+   :config
+     (lsp-enable-which-key-integration t))
+
+
+#+end_src
+
+** Language configuration
+
+*** CSS
+
+#+begin_src emacs-lisp
+
+
+  (use-package css-mode
+    :mode "\\.css\\'"
+    :hook (css-mode . lsp-deferred)
+    :config
+    (setq css-indent-level 4))
+
+
+#+end_src
+
+*** Python
+
+#+begin_src emacs-lisp
+
+   (use-package python-mode
+     :ensure nil
+     :hook (python-mode . lsp-deferred))
+
+   (setq python-shell-interpreter "python3.9")
+   (setq python-shell-interpreter-args "-i")
+   (use-package lsp-pyright
+     :ensure t
+     :hook (python-mode . (lambda ()
+                            (require 'lsp-pyright)
+                            (lsp))))  ; or lsp-deferred
+
+
+#+end_src
+
+*** C and C++
+#+begin_src emacs-lisp
+
+  ;; (add-hook 'c++-mode-hook 'lsp)
+  ;; (add-hook 'c-mode-hook 'lsp)
+  ;; ;;(add-hook 'objc-mode-hook 'irony-mode)
+
+
+#+end_src
+
+*** Rust
+#+begin_src emacs-lisp
+
+
+  ;; (use-package rustic
+  ;;   :ensure
+  ;;   :bind (:map rustic-mode-map
+  ;;               ("M-j" . lsp-ui-imenu)
+  ;;               ("M-?" . lsp-find-references)
+  ;;               ("C-c C-c l" . flycheck-list-errors)
+  ;;               ("C-c C-c a" . lsp-execute-code-action)
+  ;;               ("C-c C-c r" . lsp-rename)
+  ;;               ("C-c C-c q" . lsp-workspace-restart)
+  ;;               ("C-c C-c Q" . lsp-workspace-shutdown)
+  ;;               ("C-c C-c s" . lsp-rust-analyzer-status))
+  ;;   :config
+  ;;   ;; uncomment for less flashiness
+  ;;   ;; (setq lsp-eldoc-hook nil)
+  ;;   ;; (setq lsp-enable-symbol-highlighting nil)
+  ;;   ;; (setq lsp-signature-auto-activate nil)
+
+  ;;   ;; comment to disable rustfmt on save
+  ;;   (setq rustic-format-on-save t)
+  ;;   (add-hook 'rustic-mode-hook 'rk/rustic-mode-hook))
+  ;; (defun rk/rustic-mode-hook ()
+  ;;   ;; so that run C-c C-c C-r works without having to confirm, but don't try to
+  ;;   ;; save rust buffers that are not file visiting. Once
+  ;;   ;; https://github.com/brotzeit/rustic/issues/253 has been resolved this should
+  ;;   ;; no longer be necessary.
+  ;;   (when buffer-file-name
+  ;;     (setq-local buffer-save-without-query t)))
+
+
+#+end_src
+
+** Company
+
+#+begin_src emacs-lisp
+
+
+  (use-package company
+    :after lsp-mode
+    :hook '((lsp-mode . company-mode)
+            (prog-mode . company-mode))
+    :bind (:map company-active-map
+           ("<tab>" . company-complete-selection))
+          (:map lsp-mode-map
+           ("<tab>" . company-indent-or-complete-common))
+    :custom
+    (company-minimum-prefix-length 1)
+    (company-idle-delay 0.0))
+  (use-package company-box
+    :hook (company-mode . company-box-mode))
+  (setq company-box-icons-alist 'company-box-icons-all-the-icons
+        company-box-icons-all-the-icons
+        (let ((all-the-icons-scale-factor 1)
+              (all-the-icons-default-adjust 0))
+          `((Unknown       . ,(all-the-icons-faicon "question" :face 'all-the-icons-purple)) ;;question-circle is also good
+            (Text          . ,(all-the-icons-faicon "file-text-o" :face 'all-the-icons-green))
+            (Method        . ,(all-the-icons-faicon "cube" :face 'all-the-icons-dcyan))
+            (Function      . ,(all-the-icons-faicon "cube" :face 'all-the-icons-dcyan))
+            (Constructor   . ,(all-the-icons-faicon "cube" :face 'all-the-icons-dcyan))
+            (Field         . ,(all-the-icons-faicon "tag" :face 'all-the-icons-red))
+            (Variable      . ,(all-the-icons-faicon "tag" :face 'all-the-icons-dpurple))
+            (Class         . ,(all-the-icons-faicon "cog" :face 'all-the-icons-red))
+            (Interface     . ,(all-the-icons-faicon "cogs" :face 'all-the-icons-red))
+            (Module        . ,(all-the-icons-alltheicon "less" :face 'all-the-icons-red))
+            (Property      . ,(all-the-icons-faicon "wrench" :face 'all-the-icons-red))
+            (Unit          . ,(all-the-icons-faicon "tag" :face 'all-the-icons-red))
+            (Value         . ,(all-the-icons-faicon "tag" :face 'all-the-icons-red))
+            (Enum          . ,(all-the-icons-faicon "file-text-o" :face 'all-the-icons-red))
+            (Keyword       . ,(all-the-icons-material "format_align_center" :face 'all-the-icons-red :v-adjust -0.15))
+            (Snippet       . ,(all-the-icons-material "content_paste" :face 'all-the-icons-red))
+            (Color         . ,(all-the-icons-material "palette" :face 'all-the-icons-red))
+            (File          . ,(all-the-icons-faicon "file" :face 'all-the-icons-red))
+            (Reference     . ,(all-the-icons-faicon "tag" :face 'all-the-icons-red))
+            (Folder        . ,(all-the-icons-faicon "folder" :face 'all-the-icons-red))
+            (EnumMember    . ,(all-the-icons-faicon "tag" :face 'all-the-icons-red))
+            (Constant      . ,(all-the-icons-faicon "tag" :face 'all-the-icons-red))
+            (Struct        . ,(all-the-icons-faicon "cog" :face 'all-the-icons-red))
+            (Event         . ,(all-the-icons-faicon "bolt" :face 'all-the-icons-red))
+            (Operator      . ,(all-the-icons-faicon "tag" :face 'all-the-icons-red))
+            (TypeParameter . ,(all-the-icons-faicon "cog" :face 'all-the-icons-red))
+            (Template      . ,(all-the-icons-faicon "bookmark" :face 'all-the-icons-dgreen)))))
+
+
+#+end_src
+
+* Terminal
+
+*vterm github page*:
+[[https://github.com/akermu/emacs-libvterm]]
+
+*Eshell Official page*:
+[[https://www.gnu.org/software/emacs/manual/html_mono/eshell.html]]
+
+I'm using vterm but i just congiguring Eshell
+
+#+begin_src emacs-lisp
+
+
+(defun efs/configure-eshell ()
+  ;; Save command history when commands are entered
+  (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
+  ;; Truncate buffer for performance
+  (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer)
+  (setq eshell-history-size         10000
+        eshell-buffer-maximum-lines 10000
+        eshell-hist-ignoredups t
+        eshell-scroll-to-bottom-on-input t))
+(use-package eshell-git-prompt
+  :after eshell)
+(use-package eshell
+  :hook (eshell-first-time-mode . efs/configure-eshell)
+  :config
+  (with-eval-after-load 'esh-opt
+    (setq eshell-destroy-buffer-when-process-dies t)
+    (setq eshell-visual-commands '("htop" "zsh" "vim")))
+  (eshell-git-prompt-use-theme 'robbyrussell))
+(use-package vterm
+    :ensure t)
+
+
+#+end_src
+
+* splash screen
+#+begin_src emacs-lisp
+
+
+(require 'dashboard)
+(dashboard-setup-startup-hook)
+;; Or if you use use-package
+(use-package dashboard
+  :ensure t
+  :config
+  (dashboard-setup-startup-hook))
+  ;; Set the title
+  ;; Makes *scratch* empty.
+  (setq initial-scratch-message "")
+  (defun remove-scratch-buffer ()
+    (if (get-buffer "*scratch*")
+        (kill-buffer "*scratch*")))
+  (add-hook 'after-change-major-mode-hook 'remove-scratch-buffer)
+  ;; (setq dashboard-navigator-buttons
+  ;;       `(;; line1
+  ;;         ((,(all-the-icons-octicon "mark-github" :height 1.1 :v-adjust 0.0)
+  ;;          "Homepage"
+  ;;          "Browse homepage"
+  ;;          (lambda (&rest _) (browse-url "homepage")))
+  ;;         ("★" "Star" "Show stars" (lambda (&rest _) (show-stars)) warning)
+  ;;         ("?" "" "?/h" #'show-help nil "<" ">"))
+  ;;          ;; line 2
+  ;;         ((,(all-the-icons-faicon "linkedin" :height 1.1 :v-adjust 0.0)
+  ;;           "Linkedin"
+  ;;           ""
+  ;;           (lambda (&rest _) (browse-url "homepage")))
+  ;;          ("⚑" nil "Show flags" (lambda (&rest _) (message "flag")) error))))
+  (setq dashboard-banner-logo-title nil)
+  (setq dashboard-startup-banner "~/.emacs.d/drawing2.png")
+  (setq dashboard-center-content t)
+  ;; To disable shortcut "jump" indicators for each section, set
+  (setq dashboard-show-shortcuts t)
+  (setq dashboard-items '((recents  . 15)
+                          (bookmarks . 10)))
+  (setq dashboard-set-heading-icons t)
+  (setq dashboard-set-file-icons nil)
+  ;;(dashboard-modify-heading-icons '((recents . "file-text")
+  ;;                                  (bookmarks . "book")))
+  (setq dashboard-set-navigator t)
+  (setq dashboard-set-footer nil)
+
+
+#+end_src
+* NeoTree
+
+#+begin_src emacs-lisp
+
+
+(global-set-key [f8] 'neotree-toggle)
+(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+
+
+#+end_src
+
+* Latex mode
+** Basic
+
+#+begin_src emacs-lisp
+
+
+(setq TeX-auto-save t)
+(setq TeX-parse-self t)
+(setq-default TeX-master nil)
+(add-hook 'LaTeX-mode-hook 'writeroom-mode)
+(add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+
+
+#+end_src
+   
+* MAN pages
+#+begin_src emacs-lisp
+
+  (add-hook 'Man-mode-hook 'display-line-numbers-mode)
+  (add-hook 'Man-mode-hook 'hide-mode-line-mode)
+  
+#+end_src
+* Hacks from systemcrafters
+This  is code i took from Systemcrafters =linkfdjk= ,
+#+begin_src emacs-lisp
+
+
+  ;;saving customization opetion in custom file other than main file.
+  (setq custom-file (locate-user-emacs-file "custom-var.el"))
+  (load custom-file 'noerror 'nomessage)
+
+  ;;fff
+#+end_src
+* Move Line Up or Down
+#+begin_src emacs-lisp
+(defun move-line-up ()
+  "Move up the current line."
+  (interactive)
+  (transpose-lines 1)
+  (forward-line -2)
+  (indent-according-to-mode))
+
+(defun move-line-down ()
+  "Move down the current line."
+  (interactive)
+  (forward-line 1)
+  (transpose-lines 1)
+  (forward-line -1)
+  (indent-according-to-mode))
+
+(global-set-key [(meta shift up)]  'move-line-up)
+(global-set-key [(meta shift down)]  'move-line-down)
+#+end_src
+
