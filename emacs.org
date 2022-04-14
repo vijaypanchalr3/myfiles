@@ -91,6 +91,7 @@ This is code initializing melpa with updated elpa and org mode. which i copied f
      '(scroll-bar-mode nil)
      '(show-paren-mode t)
      '(size-indication-mode t)
+     '(window-divider-mode t)
      '(tool-bar-mode nil)
      '(save-place-mode t))
     (set-face-attribute 'default nil :font "JetBrains Mono NL" :height 110)
@@ -391,7 +392,7 @@ Emacs Org mode is super Powerful and super customizable. this is small customiza
     (text-mode . mixed-pitch-mode)
     :config
     (set-face-attribute 'fixed-pitch nil :font "JetBrains Mono NL" :height 110)
-    (set-face-attribute 'variable-pitch nil :font "Cormorant Garamond" :height 160))
+    (set-face-attribute 'variable-pitch nil :font "Cormorant Garamond" :height 170))
   (custom-theme-set-faces
        'user
        '(org-block ((t (:inherit fixed-pitch))))
@@ -882,4 +883,12 @@ This  is code i took from Systemcrafters =linkfdjk= ,
 
 (global-set-key [(meta shift up)]  'move-line-up)
 (global-set-key [(meta shift down)]  'move-line-down)
+#+end_src
+* dimmer
+#+begin_src emacs-lisp
+        (use-package dimmer
+          :init (dimmer-mode 1)
+          :custom (dimmer-fraction 0.7))
+        (setq window-divider-default-bottom-width 4
+              window-divider-default-right-width 4)
 #+end_src
