@@ -134,9 +134,11 @@ This is code initializing melpa with updated elpa and org mode. which i copied f
                       dashboard-mode-hook
                       image-mode-hook
                       vterm-mode-hook
+                      magit-mode-hook
                       help-mode-hook
                       package-menu-mode-hook
                       calc-mode-hook
+                      text-mode-hook
                       calc-trail-mode-hook))
         (add-hook mode(lambda () (hide-mode-line-mode 1))))
       (dolist (mode '(org-mode-hook))
@@ -360,7 +362,7 @@ Emacs Org mode is super Powerful and super customizable. this is small customiza
 
 
   (defun efs/org-mode-visual-fill ()
-    (setq visual-fill-column-width 100
+    (setq visual-fill-column-width 150
 	  visual-fill-column-center-text t)
     (visual-fill-column-mode 1)
     (visual-line-mode 1)
@@ -389,7 +391,7 @@ Emacs Org mode is super Powerful and super customizable. this is small customiza
     (text-mode . mixed-pitch-mode)
     :config
     (set-face-attribute 'fixed-pitch nil :font "JetBrains Mono NL" :height 110)
-    (set-face-attribute 'variable-pitch nil :font "Mali" :height 140))
+    (set-face-attribute 'variable-pitch nil :font "Cormorant Garamond" :height 160))
   (custom-theme-set-faces
        'user
        '(org-block ((t (:inherit fixed-pitch))))
